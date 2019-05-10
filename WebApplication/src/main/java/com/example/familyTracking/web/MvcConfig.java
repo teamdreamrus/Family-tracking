@@ -1,4 +1,4 @@
-package com.example.FamilyTracking.web;
+package com.example.familyTracking.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
