@@ -4,7 +4,7 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default" style="margin-top:45px">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Family Tracking</h3>
+                    <h3 class="panel-title">Главная страница</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped">
@@ -14,10 +14,10 @@
                         </tr>
                         <tbody>
                         <tr>
-                            <td><a class="alert-link" href="/profile">Мои координаты</a></td>
+                            <td><a class="alert-link" href="/profile">Личный кабинет</a></td>
                         </tr>
                         <tr>
-                            <td><a class="alert-link" href="/friends">Координаты друзей</a></td>
+                            <td><a class="alert-link" href="/friends">Друзья</a></td>
                         </tr>
                         </tbody>
                     </table>
