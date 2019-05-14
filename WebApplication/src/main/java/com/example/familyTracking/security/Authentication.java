@@ -19,7 +19,9 @@ class Authentication extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable().httpBasic().and()
+                .csrf().disable()
+
+                .httpBasic().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/location").hasAuthority(Role.USER.toString())
                 .antMatchers(HttpMethod.GET, "/api/location/*").permitAll()

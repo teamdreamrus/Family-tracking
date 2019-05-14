@@ -27,7 +27,7 @@ public class LocationController{
     public String newLocation(@RequestBody String newLocationJson){
         UserLocation userLocation = gson.fromJson(newLocationJson, UserLocation.class);
         System.out.print("User " + userLocation.username + " latitude " + userLocation.latitude + " longitude " + userLocation.longitude);
-        //getting new location цfrom user
+        //getting new location from user, send it to database
         return newLocationJson;
     }
 
@@ -47,6 +47,7 @@ public class LocationController{
                 //get last locations for day
                 break;
         }
+        //send friend's location to user
         return "";
     }
 
