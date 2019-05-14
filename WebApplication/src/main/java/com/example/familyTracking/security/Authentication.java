@@ -20,7 +20,7 @@ class Authentication extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-
+                .x509().subjectPrincipalRegex("CN=(.*?),").and()
                 .httpBasic().and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/location").hasAuthority(Role.USER.toString())
