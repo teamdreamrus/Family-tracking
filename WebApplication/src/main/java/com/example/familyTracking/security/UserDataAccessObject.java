@@ -1,6 +1,7 @@
 package com.example.familyTracking.security;
 
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
@@ -12,6 +13,15 @@ public class UserDataAccessObject {
     public Optional<User> findByUsername(@NonNull String username){
         User user = null;
         //find user in database here
+
+        user = new User();
+        user.setPassword(new BCryptPasswordEncoder().encode("password"));
+        user.setUsername("dmitriy");
+        user.addAuthority(Role.USER);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
         return Optional.ofNullable(user);
     }
 
