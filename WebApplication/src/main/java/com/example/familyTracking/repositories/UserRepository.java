@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.familyTracking.security.User;
 
-public interface UserRepository extends CrudRepository<User, Integer>{
+import java.util.List;
 
+public interface UserRepository extends CrudRepository<User, Integer>{
+    List<User> findByUsername(String title);
 }
