@@ -1,45 +1,149 @@
+@import url('https://fonts.google.com/?query=Rale&selection.family=Lato|Raleway');
+
+body{
+    background-color: #f2f2f2;
+    font-family: Lato;
+    font-weight: 300;
+    font-size: 16px;
+    color: #555;
+
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+
+    margin-top: 70px;
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: "Raleway";
+    font-weight: 300;
+    color: #333;
+}
+
+p {
+   line-height: 20px;
+    margin-bottom: 25px;
+}
+
+.centered{
+    text-align: center;
+}
+
+a{
+    color: #333;
+}
+
+a:hover, a:focus{
+    color: #7b7b7b;
+    text-decoration: none;
+    outline: 0;
+}
+
+hr{
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
 .navbar{
-background:#6ed2b4;
+    font-weight: 800;
+    font-size: 14px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background: #6ed2b4;
+}
+
+.navbar-inverse{
+    background: #2d2d2d;
+    border-color: #2d2d2d;
 }
 
 .navbar-brand{
-font-size: 25pt !important;
+    font-size: 20pt !important;
 }
 
 .nav-link , .navbar-brand{
-color: #f4f4f4;
-cursor: pointer;
+    color: #f4f4f4;
+    cursor: pointer;
 }
 
 .nav-link{
-margin-right: 1em !important;
-font-size: 15pt !important;
+    margin-right: 1em !important;
+    font-size: 15pt !important;
 }
 
 .nav-link:hover{
-background: #f4f4f4;
-color: #2af6b9;
+    background: #f4f4f4;
+    color: #2af6b9;
 }
 
 .navbar-collapse{
-justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 .navbar-toggler{
-background:#fff !important;
+    background:#fff !important;
+    color: #6ed2b4 !important;
 }
 
 .overlay{
-position: absolute;
-min-height: 100%;
-min-width: 100%;
-left: 0;
-top: 0;
+    position: absolute;
+    min-height: 100%;
+    min-width: 100%;
+    left: 0;
+    top: 0;
 }
 
 .container{
-margin: auto;
-padding: 2em;
+
 }
 
+.btn{
+    color: #fff;
+    background: #6ed2b4;
+}
+
+.map {
+    min-height: 500px;
+}
+
+.panel-heading{
+    font-weight: 500;
+    font-size: 14px;
+    font-family: "Raleway";
+    background: #6ed2b4;
+}
+
+.div {
+    display: block;
+}
+
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.panel-heading{
+    color: #f4f4f4;
+    font-size: 15pt !important;
+    background: #6ed2b4;
+}
+
+
+.wrapping{
+    min-height: 5px;
+}
 

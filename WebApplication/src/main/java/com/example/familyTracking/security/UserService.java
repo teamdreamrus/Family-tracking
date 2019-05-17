@@ -27,6 +27,7 @@ public class UserService implements UserDetailsService {
     public void addUser(User newUser){
         newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
         userDao.saveUser(newUser);
+
     }
 
     List<Role> simpleRoleList = new LinkedList<Role>();

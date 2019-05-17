@@ -18,7 +18,7 @@
                    name="password">
         </div>
         <div class="form-actions">
-            <button type="submit" class="btn">${buttonText}</button>
+            <button type="submit" class="btn btn-primary">${buttonText}</button>
         </div>
     </form>
 </#macro>
