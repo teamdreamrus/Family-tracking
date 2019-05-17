@@ -27,6 +27,7 @@ public class UserService implements UserDetailsService {
     public void addUser(User newUser){
         newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
         userDao.saveUser(newUser);
+
     }
 
     List<Role> simpleRoleList = new LinkedList<Role>();
@@ -36,7 +37,6 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(@NonNull  String username) throws UsernameNotFoundException {
-
         return userDao.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User "+username+" wasn't found"));
     }
 }
