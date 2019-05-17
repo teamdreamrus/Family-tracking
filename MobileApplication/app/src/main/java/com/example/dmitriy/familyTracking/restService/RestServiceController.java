@@ -47,10 +47,10 @@ public class RestServiceController {
         instance.service =
                 RestService.createService(RestServiceConfiguration.class, AccountCredentials.getUsername(), AccountCredentials.getPassword());
 
-        Call<List<UserLocation>> call = instance.service.addLocation(userLocation);
-        call.enqueue(new Callback<List<UserLocation>>() {
+        Call<ResponseBody> call = instance.service.addLocation(userLocation);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<List<UserLocation>> call, Response<List<UserLocation>> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     Log.i("POST location", "server access");
                     if (response.body() != null) {
@@ -64,7 +64,7 @@ public class RestServiceController {
             }
 
             @Override
-            public void onFailure(Call<List<UserLocation>> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.i("POST location", "client error");
                 String message = t.getMessage();
                 if (message != null && !message.isEmpty()) {
@@ -75,7 +75,7 @@ public class RestServiceController {
     }
 
     private List<UserLocation> userLocations = null;
-
+    public boolean userLocationsResponseReceived;
     public static List<UserLocation> getLocations(String userId, Period period){
         Call<List<UserLocation>> call = instance.service.getLocations(userId, period.toString());
         instance.userLocations = null;
@@ -108,6 +108,7 @@ public class RestServiceController {
     }
 
     private List<UserData> friends = null;
+    public boolean friendsResponseReceived;
     public static List<UserData> getFriends(String userId){
         Call<List<UserData>> call = instance.service.getFriends(userId);
         instance.friends = null;

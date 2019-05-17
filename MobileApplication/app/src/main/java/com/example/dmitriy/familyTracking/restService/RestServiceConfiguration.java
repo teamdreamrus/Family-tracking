@@ -20,7 +20,7 @@ import retrofit2.http.Query;
 
 public interface RestServiceConfiguration {
     @POST("api/location")
-    Call<List<UserLocation>> addLocation( @Body UserLocation location);
+    Call<ResponseBody> addLocation( @Body UserLocation location);
 
     @GET("/api/location/{id}")
     Call<List<UserLocation>> getLocations( @Path("id") String id, @Query("period") String period);

@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,15 +16,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.dmitriy.familyTracking.accountManagement.AccountCredentials;
+import com.example.dmitriy.familyTracking.restService.RestService;
 import com.example.dmitriy.familyTracking.restService.RestServiceController;
 
 import org.w3c.dom.Text;
 
-public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
+public class AuthActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     Button loginButton;
     EditText usernameEdit;
     EditText passwordEdit;
+    EditText serverIpEdit;
     TextView messageText;
 
     @Override
@@ -35,15 +39,38 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         usernameEdit = findViewById(R.id.usernameEdit);
         passwordEdit = findViewById(R.id.passwordEdit);
         messageText = findViewById(R.id.messageText);
+        serverIpEdit = findViewById(R.id.serverIpText);
         loginButton.setOnClickListener(this);
         loadAccountCredentials();
         initCredentials();
+        loadServerUrl();
+        serverIpEdit.addTextChangedListener(this);
         new RestServiceController();
     }
 
     public void initCredentials(){
         usernameEdit.setText(AccountCredentials.instance.getUsername());
         passwordEdit.setText(AccountCredentials.instance.getPassword());
+    }
+
+    boolean saveServerUrl(){
+        boolean serverUrlSaved;
+        String serverUrl = RestService.API_BASE_URL;
+        SharedPreferences sharedPreferences = getPreferences(0);
+        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+        sharedPreferencesEditor.putString("serverUrl", serverUrl);
+        sharedPreferencesEditor.commit();
+        serverUrlSaved = true;
+        return serverUrlSaved;
+    }
+
+    boolean loadServerUrl(){
+        boolean serverUrlLoaded;
+        SharedPreferences sharedPreferences = getPreferences(0);
+        RestService.API_BASE_URL = sharedPreferences.getString("serverUrl", "https://192.168.0.?:8443/");
+        serverIpEdit.setText(RestService.API_BASE_URL);
+        serverUrlLoaded = true;
+        return serverUrlLoaded;
     }
 
     boolean saveAccountCredentials(){
@@ -89,6 +116,20 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        RestService.API_BASE_URL = s.toString();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 
 
     class WaitForLoginResponse extends AsyncTask<Void, Void, Boolean> {
@@ -117,6 +158,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             messageText.setText("введите все учётные данные");
         }
         else {
+            new RestServiceController();
+            messageText.setText("ожидается ответ сервера...");
+            loginButton.setEnabled(false);
             AccountCredentials.setUsername(usernameEdit.getText().toString());
             AccountCredentials.setPassword(passwordEdit.getText().toString());
             AccountCredentials.setId("id1");
@@ -127,8 +171,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void loginResponse(boolean result){
+        loginButton.setEnabled(true);
         if (result) {
             saveAccountCredentials();
+            saveServerUrl();
             AccountCredentials.setValid(true);
             Intent intent = new Intent(AuthActivity.this, TabsActivity.class);
             startActivity(intent);
