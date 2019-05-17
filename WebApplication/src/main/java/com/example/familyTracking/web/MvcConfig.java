@@ -21,4 +21,10 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/public","classpath:/static/").setCachePeriod(0);
 
     }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*");
+    }
+
 }
