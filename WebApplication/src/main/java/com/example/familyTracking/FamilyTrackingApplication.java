@@ -7,9 +7,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 
-@Configuration
+/*@Configuration
 @ComponentScan(basePackages = "com.example")
-@EnableAutoConfiguration
+@EnableAutoConfiguration*/
+@SpringBootApplication
 public class FamilyTrackingApplication {
 
 	public static void main(String[] args) {

@@ -22,6 +22,7 @@ class Authentication extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/").hasRole(Role.USER.toString())
+                //.antMatchers("/").permitAll()
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").permitAll()
