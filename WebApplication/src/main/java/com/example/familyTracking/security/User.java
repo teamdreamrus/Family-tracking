@@ -3,10 +3,9 @@ package com.example.familyTracking.security;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.LinkedList;
@@ -20,9 +19,15 @@ import lombok.Data;
 @AllArgsConstructor
 @Entity
 public class User implements UserDetails {
+    @Transient //временно
     private List<Role> authorities;
+    private String strRole;
     private String password;
+    //временное поле возможно постоянное
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Integer Id;
+
     private String username;
     private boolean accountNonExpired;
     private boolean accountNonLocked;
@@ -32,10 +37,24 @@ public class User implements UserDetails {
     public void addAuthority(Role userRole){
         if (this.authorities != null){
             this.authorities.add(userRole);
+             this.strRole+=" "+userRole.toString();
         }
         else{
             this.authorities = new LinkedList<Role>();
             this.authorities.add(userRole);
+            this.strRole="";
+            this.strRole=userRole.toString();
         }
     }
+    public void parseAuthority(){
+        this.authorities = new LinkedList<>() ;
+        String[] arrStr= this.strRole.split(" ");
+        for (String s : arrStr) {
+            this.authorities.add(Role.valueOf(s));
+        }
+    }
+
+
+
+
 }

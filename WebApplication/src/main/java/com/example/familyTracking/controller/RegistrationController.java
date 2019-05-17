@@ -32,19 +32,22 @@ public class RegistrationController{
         user.setAccountNonLocked(true);
         user.setEnabled(true);
         user.setCredentialsNonExpired(true);
+      //  user.addAuthority(Role.USER);
         user.addAuthority(Role.USER);
+        userService.addUser(user);
+
         try{
             userService.loadUserByUsername(user.getUsername());
         }
         catch(UsernameNotFoundException ex){
-            userService.addUser(user);
+
             userAlreadyExists = false;
         }
         if (userAlreadyExists){
             redirectUrl = "";
         }
         else {
-            redirectUrl = "";
+            redirectUrl = "/login";
         }
         return redirectUrl;
     }

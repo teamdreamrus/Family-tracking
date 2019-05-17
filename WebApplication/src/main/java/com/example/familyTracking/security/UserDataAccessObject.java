@@ -1,6 +1,7 @@
 package com.example.familyTracking.security;
 
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,11 +14,22 @@ import java.util.Optional;
 
 @Component
 public class UserDataAccessObject {
+
     @Autowired
-    private UserRepository userRepository;
+    public UserRepository userRepository;
     public Optional<User> findByUsername(@NonNull String username){
-        User user = null;
-      //  User user = userRepository.findByUsername(username);
+      //  User user = null;
+        User user = userRepository.findByUsername(username).get(0);
+       // user.parseAuthority();
+        user.setUsername("asd");
+        user.setPassword(new BCryptPasswordEncoder().encode("123"));
+        user.addAuthority(Role.USER);
+        user.setAccountNonExpired(true);
+        user.setAccountNonLocked(true);
+        user.setCredentialsNonExpired(true);
+        user.setEnabled(true);
+        System.out.println(user.getAuthorities());
+
         //find user in database here
 
         return Optional.ofNullable(user);
@@ -25,6 +37,9 @@ public class UserDataAccessObject {
 
     public Optional<List<User>> getAllUsers(){
         List<User> userList = new LinkedList<User>();
+        //List<User> userList = userRepository.findAll();
+       userRepository.findAll().forEach(userList::add);
+
         //get all users from database here
         return Optional.ofNullable(userList);
     }
@@ -32,7 +47,7 @@ public class UserDataAccessObject {
     public boolean saveUser(User newUser){
         //call database user saving here
         userRepository.save(newUser);
-        return false;
+        return true;
     }
 
     public boolean deleteUserByUsername(@NonNull String username){
