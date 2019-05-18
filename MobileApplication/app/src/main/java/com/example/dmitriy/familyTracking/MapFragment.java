@@ -224,8 +224,9 @@ public class MapFragment extends Fragment implements LocationListener {
         userLocation.username = AccountCredentials.getUsername();
         userLocation.latitude = String.valueOf(location.getLatitude());
         userLocation.longitude = String.valueOf(location.getLongitude());
-        RestServiceController.addLocation(userLocation);
-
+        if (!AccountCredentials.isOffline()) {
+            RestServiceController.addLocation(userLocation);
+        }
         mListener.onMapActivityDataListener(location);
     }
 

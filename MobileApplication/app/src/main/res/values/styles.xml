@@ -70,7 +70,7 @@
     </style>
 
     <style name="MenuEditText" parent="@style/Widget.AppCompat.EditText">
-        <item name="android:background">@color/simpleLight</item>
+        <item name="android:background">@drawable/menu_edit</item>
         <item name="android:textColor">@color/simpleDark</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>

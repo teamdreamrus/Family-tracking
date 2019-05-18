@@ -29,6 +29,7 @@
     <string name="username_text">Имя пользователя</string>
     <string name="password_text">Пароль</string>
     <string name="login">Войти</string>
+    <string name="offline">Офлайн</string>
 
     <string name="widgetName">Виджет компаса</string>
     <!-- TODO: Remove or change this placeholder text -->

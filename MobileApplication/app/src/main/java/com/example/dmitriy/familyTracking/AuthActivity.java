@@ -24,6 +24,7 @@ import org.w3c.dom.Text;
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     Button loginButton;
+    Button offlineButton;
     EditText usernameEdit;
     EditText passwordEdit;
     EditText serverIpEdit;
@@ -40,7 +41,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         passwordEdit = findViewById(R.id.passwordEdit);
         messageText = findViewById(R.id.messageText);
         serverIpEdit = findViewById(R.id.serverIpText);
+        offlineButton = findViewById(R.id.offlineButton);
         loginButton.setOnClickListener(this);
+        offlineButton.setOnClickListener(this);
         loadAccountCredentials();
         initCredentials();
         loadServerUrl();
@@ -113,6 +116,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.loginButton:
                 loginRequest();
                 break;
+            case R.id.offlineButton:
+                AccountCredentials.setOffline(true);
+                startApp();
+                break;
         }
     }
 
@@ -130,6 +137,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     public void afterTextChanged(Editable s) {
 
     }
+
 
 
     class WaitForLoginResponse extends AsyncTask<Void, Void, Boolean> {
@@ -151,6 +159,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
+    void startApp(){
+        Intent intent = new Intent(AuthActivity.this, TabsActivity.class);
+        startActivity(intent);
+    }
 
     public void loginRequest(){
         messageText.setText("");
@@ -176,8 +190,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             saveAccountCredentials();
             saveServerUrl();
             AccountCredentials.setValid(true);
-            Intent intent = new Intent(AuthActivity.this, TabsActivity.class);
-            startActivity(intent);
+            AccountCredentials.setOffline(false);
+            startApp();
         }
         else {
             messageText.setText("не удалось авторизоваться");

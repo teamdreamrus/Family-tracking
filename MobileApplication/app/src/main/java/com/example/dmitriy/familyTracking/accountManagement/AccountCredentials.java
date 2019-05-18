@@ -8,6 +8,7 @@ public class AccountCredentials{
     private String password;
     private String id;
     private boolean valid;
+    private boolean offline;
 
     public AccountCredentials(String username, String password, String id)
     {
@@ -48,5 +49,13 @@ public class AccountCredentials{
 
     public static boolean isValid(){
         return instance.valid;
+    }
+
+    public static void setOffline(boolean offline){
+        instance.offline = offline;
+    }
+
+    public static boolean isOffline(){
+        return instance.offline;
     }
 }
