@@ -121,6 +121,8 @@ public class TrackingTableFragment extends Fragment implements View.OnClickListe
         }
     }
 
+
+
     void updateTableView(){
         try {
             TableLayout tableLayout = view.findViewById(R.id.trackingTable);
@@ -130,26 +132,28 @@ public class TrackingTableFragment extends Fragment implements View.OnClickListe
 
 
             TableRow row = new TableRow(this.getActivity());
-            //TextView id = new TextView(this.getActivity());
             TextView time = new TextView(this.getActivity());
             TextView latitude = new TextView(this.getActivity());
-            TextView longtitude = new TextView(this.getActivity());
+            TextView longitude = new TextView(this.getActivity());
 
             time.setText("Время");
             latitude.setText("Широта");
-            longtitude.setText("Долгота");
-            time.setTextColor(getResources().getColor(R.color.colorPrimary));
-            latitude.setTextColor(getResources().getColor(R.color.colorPrimary));
-            longtitude.setTextColor(getResources().getColor(R.color.colorPrimary));
+            longitude.setText("Долгота");
+            time.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            latitude.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            longitude.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            time.setTextColor(getResources().getColor(R.color.colorDark));
+            latitude.setTextColor(getResources().getColor(R.color.colorDark));
+            longitude.setTextColor(getResources().getColor(R.color.colorDark));
             time.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
             latitude.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
-            longtitude.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
+            longitude.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
             time.setMinHeight(50);
             latitude.setMinHeight(50);
-            longtitude.setMinHeight(50);
+            longitude.setMinHeight(50);
             row.addView(time);
             row.addView(latitude);
-            row.addView(longtitude);
+            row.addView(longitude);
             row.setGravity(Gravity.CENTER);
             tableLayout.addView(row);
 
@@ -158,10 +162,6 @@ public class TrackingTableFragment extends Fragment implements View.OnClickListe
             cursor = TabsActivity.db.rawQuery("Select * from trackingTable", null); //Выполняем запрос из базы
             if (cursor.moveToFirst()) { //переходим на первый элемент если он есть
                 do {
-//                Log.v("id", cursor.getString(cursor.getColumnIndex("id")));
-//                Log.v("time", cursor.getString(cursor.getColumnIndex("time")));
-//                Log.v("lat", cursor.getString(cursor.getColumnIndex("latitude")));
-//                Log.v("long", cursor.getString(cursor.getColumnIndex("longtitude")));
                     cursor.getString(cursor.getColumnIndex("time"));
 
                     SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -181,25 +181,28 @@ public class TrackingTableFragment extends Fragment implements View.OnClickListe
                         //TextView id = new TextView(this.getActivity());
                         time = new TextView(this.getActivity());
                         latitude = new TextView(this.getActivity());
-                        longtitude = new TextView(this.getActivity());
+                        longitude = new TextView(this.getActivity());
                         //id.setText(cursor.getString(cursor.getColumnIndex("id")));
+                        time.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        latitude.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        longitude.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         time.setText(cursor.getString(cursor.getColumnIndex("time")));
                         latitude.setText(cursor.getString(cursor.getColumnIndex("latitude")));
-                        longtitude.setText(cursor.getString(cursor.getColumnIndex("longtitude")));
+                        longitude.setText(cursor.getString(cursor.getColumnIndex("longtitude")));
                         time.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
                         latitude.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
-                        longtitude.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
+                        longitude.setBackground(getResources().getDrawable(R.drawable.tracking_list_background));
                         time.setMinHeight(50);
                         latitude.setMinHeight(50);
-                        longtitude.setMinHeight(50);
-                        time.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        latitude.setTextColor(getResources().getColor(R.color.colorPrimary));
-                        longtitude.setTextColor(getResources().getColor(R.color.colorPrimary));
+                        longitude.setMinHeight(50);
+                        time.setTextColor(getResources().getColor(R.color.colorDark));
+                        latitude.setTextColor(getResources().getColor(R.color.colorDark));
+                        longitude.setTextColor(getResources().getColor(R.color.colorDark));
 
                         //row.addView(id);
                         row.addView(time);
                         row.addView(latitude);
-                        row.addView(longtitude);
+                        row.addView(longitude);
                         row.setGravity(Gravity.CENTER);
                         row.setMinimumHeight(50);
                         tableLayout.addView(row);
