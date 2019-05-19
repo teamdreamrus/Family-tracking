@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.example.familyTracking.repositories.LocationRepository;
+import com.example.familyTracking.location.Location;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @RestController
 @RequestMapping("/api/location")
 public class LocationController{
+
+    @Autowired
+    public LocationRepository locationRepository;
 
     Gson gson = new GsonBuilder().create();
 
@@ -37,6 +44,11 @@ public class LocationController{
         UserLocation userLocation = gson.fromJson(newLocationJson, UserLocation.class);
         System.out.println("User " + userLocation.username + " latitude " + userLocation.latitude + " longitude " + userLocation.longitude);
         //getting new location from user, send it to database
+        Location locUser = new Location();
+        locUser.setUsername(userLocation.username);
+        locUser.setLatitude(userLocation.latitude);
+        locUser.setLongitude(userLocation.longitude);
+        locationRepository.save(locUser);
         return newLocationJson;
     }
 
