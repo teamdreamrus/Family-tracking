@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="/resources/css/bootstrap.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="/resources/css/main.css">
+    <link rel="stylesheet" href="/resources/css/defaultTheme.css" media="screen" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
+    <script src='/resources/js/jquery.fixedheadertable.js'></script>
 </head>
 <body>
 <header class="header">
@@ -44,17 +48,12 @@
     <div class="wrapping">
 
     </div>
-
-<#nested>
-
 </header>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="/resources/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('.header').height($(window).height());
-        })
-    </script>
+<section>
+<#nested>
+</section>
+
+
 </body>
 </html>
 </#macro>

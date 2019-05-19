@@ -6,8 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.security.Principal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,6 +56,9 @@ public class User implements UserDetails {
         }
     }
 
+//    public User getCurrentUser(Principal principal){
+//        return ((User )SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+//    }
 
 
 

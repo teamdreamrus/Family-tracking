@@ -27,7 +27,7 @@ class Authentication extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/location/*").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/friends/*").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/").hasAuthority(Role.USER.toString())//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers("/").permitAll()//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/friends").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/profile").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/resources/**").permitAll()

@@ -13,6 +13,10 @@ public class MvcConfig implements WebMvcConfigurer {
 
         reg.addViewController("/")
                 .setViewName("index");
+
+        reg.addViewController("/friends")
+                .setViewName("friends");
+
     }
 
 
