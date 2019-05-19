@@ -49,7 +49,7 @@
 
     </div>
 </header>
-<section>
+<section id="main">
 <#nested>
 </section>
 

@@ -9,7 +9,7 @@ springApp.controller("appController",  function($scope, $http){
     $scope.friends = [];
     $scope.users = [];
     $scope.selection = [];
-
+    $scope.search = {};
 
     $scope.checkedFriends = [];
     $scope.toggleCheck = function (friend) {
@@ -25,25 +25,50 @@ springApp.controller("appController",  function($scope, $http){
             console.log(response);
             var friendsList = response.data;
             $scope.friends = friendsList;
-            $scope.printPersons();
         },
         function (error){
         }
     );
 
-    $scope.printPersons = function(){
-
-        for (var key in $scope.friends) {
-            if ($scope.friends[key].selected){
-                console.log($scope.friends[key].username);
-            }
+    $http.get("https://localhost:8443/api/users").then(
+        function (response){
+            console.log(response);
+            var usersList = response.data;
+            $scope.users = usersList;
+        },
+        function (error){
         }
-    };
+    );
+
+    $scope.getAllFriends = function(){
+        $http.get("https://localhost:8443/api/friends/").then(
+            function (response){
+                console.log(response);
+                var friendsList = response.data;
+                $scope.friends = friendsList;
+            },
+            function (error){
+            }
+        );
+    }
+
+    $scope.getAllUsers = function(){
+        $http.get("https://localhost:8443/api/users/").then(
+            function (response){
+                console.log(response);
+                var usersList = response.data;
+                $scope.users = usersList;
+            },
+            function (error){
+            }
+        );
+    }
 
     $scope.acceptFriendship = function(id){
         $http.put("https://localhost:8443/api/friends/" + id.toString()).then(
             function (response){
                 console.log(response);
+                $scope.getAllFriends();
             },
             function (error){
             }
@@ -54,6 +79,7 @@ springApp.controller("appController",  function($scope, $http){
         $http.delete("https://localhost:8443/api/friends/" + id.toString()).then(
             function (response){
                 console.log(response);
+                $scope.getAllFriends();
             },
             function (error){
             }
@@ -62,7 +88,21 @@ springApp.controller("appController",  function($scope, $http){
 
     $scope.response = {};
 
+    $scope.addNewFriendshipRequest = function(id){
+        $http.post("https://localhost:8443/api/friends/" + id.toString()).then(
+            function(response){
+                console.log(response);
+                alert("Заявка на дружбу подана");
+            },
+            function(error){
+
+            }
+        )
+    }
+
+
 });
+
 
 
 springApp.directive("hoverClass",function(){

@@ -1,16 +1,15 @@
 <#import "parts/page.ftl" as pageTemplate>
 
 <@pageTemplate.page "Family Tracking">
-<div ng-app="springApp">
 
-    <div class="container-fluid" style="margin-top: 30px"  ng-controller="appController">
-        <div class="row ">
+    <div class="container-fluid" style="margin-top: 30px" ng-app="springApp" ng-controller="appController">
+        <div class="row full-viewport">
             <div class="col-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading rounded-top centered"><h3><a class="text-center" href="/friends">Друзья</a></h3></div>
-                        <div class="panel-body">
+                        <div class="panel-body fixed-tables">
 
-                        <table id="friendsTable" class="table table-striped map">
+                        <table id="friendsTable" class="table table-striped fill-viewport">
                             <thead>
                             <tr>
                                 <th><i class="fas fa-angle-double-down" hover-class="fa-angle-down"
@@ -29,10 +28,11 @@
                 </div>
             </div>
         </div>
+        <div class="d-block d-md-none w-100"></div>
         <div class="col-9">
             <div class="panel panel-primary">
                 <div class="panel-heading text-center rounded-top"><h3>Карта</h3></div>
-                <div class="panel-body panel-primary">
+                <div class="panel-body panel-primary fixed-tables">
                     <div class="row justify-content-around">
                             <div class="col">
                                 <button class="btn btn-default" ng-click="setOneDay()">
@@ -50,16 +50,15 @@
                                 </button>
                             </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center fill-viewport">
                         <div class="col">
-                            <div id='map' class="map"></div>
+                            <div id='map' class="fill-viewport"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
     <script src='https://maps.api.2gis.ru/2.0/loader.js?pkg=full'></script>

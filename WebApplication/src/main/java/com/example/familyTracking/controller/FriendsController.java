@@ -1,5 +1,8 @@
 package com.example.familyTracking.controller;
 
+import com.example.familyTracking.model.Friend;
+import com.example.familyTracking.model.Friendship;
+import com.example.familyTracking.model.UserPublic;
 import com.example.familyTracking.security.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,48 +21,6 @@ import java.util.List;
 @RequestMapping("/api/friends")
 public class FriendsController {
 
-    @Data
-    class UserPublic{
-        public UserPublic(Integer id, String username){
-            this.username = username;
-            this.id = id;
-        }
-        @SerializedName("id")
-        public Integer id;
-        @SerializedName("username")
-        public String username;
-    }
-
-    @Data
-    class Friend extends UserPublic{
-        public Friend(Integer id, String username, boolean accepted){
-            super(id, username);
-            this.accepted = accepted;
-        }
-        @SerializedName("accepted")
-        public boolean accepted;
-    }
-
-    @Data
-    class Friendship{
-        public Friendship(Integer id1, Integer id2, Integer initiatorId, boolean accepted){
-            this.id1 = id1;
-            this.id2 = id2;
-            this.initiatorId = initiatorId;
-            this.accepted = accepted;
-        }
-        @SerializedName("id1")
-        public Integer id1;
-        @SerializedName("id2")
-        public Integer id2;
-        @SerializedName("initiatorId")
-        public Integer initiatorId;
-        @SerializedName("accepted")
-        public boolean accepted;
-        @SerializedName("rejected")
-        public boolean rejected;
-    }
-
     Gson gson = new GsonBuilder().create();
 
     @GetMapping("{id}")
@@ -69,10 +30,6 @@ public class FriendsController {
         System.out.println("Sending friends:" + friendsJson);
         // find friends for user with id
         // put it to userFriendsList
-
-        userFriendsList.add(new Friend(0,"JohlGalt", true));
-        userFriendsList.add(new Friend(1,"SamGrakham", true));
-        userFriendsList.add(new Friend(2,"SomeoneElse", false));
         friendsJson = gson.toJson(userFriendsList);
         return friendsJson;
     }
@@ -105,6 +62,7 @@ public class FriendsController {
         User user = getCurrentUser();
         Friendship friendship = new Friendship(user.getId(), id, user.getId(), false);
         //add new friendship to db if not exists
+        System.out.println("New frienship request from user " + user.getId() + " to user " + id);
         return id;
     }
 
@@ -112,6 +70,7 @@ public class FriendsController {
     public Integer deleteFriendship(@PathVariable Integer id){
         User user = getCurrentUser();
         //delete friendship from db for users with id and user.getId()
+        System.out.println("Deleting frienship of users " + user.getId() + " and " + id);
         return id;
     }
 
@@ -119,6 +78,7 @@ public class FriendsController {
     public Integer acceptFriendship(@PathVariable Integer id){
         User user = getCurrentUser();
         //accept friendship in db for users with id and user.getId()
+        System.out.println("Accepting frienship request from user " + user.getId() + " to user " + id);
         return id;
     }
 }

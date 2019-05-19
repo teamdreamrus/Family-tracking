@@ -1,6 +1,7 @@
 package com.example.familyTracking.controller;
 
 
+import com.example.familyTracking.model.UserPublic;
 import com.example.familyTracking.security.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +22,7 @@ public class UsersController {
     @GetMapping
     public String getAllUsers(){
         String allUsersJson = "";
-        List<FriendsController.UserPublic> allUsersList = new LinkedList<>();
+        List<UserPublic> allUsersList = new LinkedList<>();
         //get all users from DB to allUsersList
         allUsersJson = gson.toJson(allUsersList);
         return allUsersJson;

@@ -19,7 +19,7 @@ springApp.controller("appController",  function($scope, $http){
 
     $scope.orderField = 'username';
     $scope.orderInc = false;
-    $http.get("https://localhost:8443/api/friends/"+"userId").then(
+    $http.get("https://localhost:8443/api/friends").then(
         function (response){
             console.log(response);
             var friendsList = response.data;
