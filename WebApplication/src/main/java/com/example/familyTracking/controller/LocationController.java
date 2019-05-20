@@ -1,10 +1,13 @@
 package com.example.familyTracking.controller;
 
+import com.example.familyTracking.security.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedList;
@@ -38,6 +41,27 @@ public class LocationController{
         System.out.println("User " + userLocation.username + " latitude " + userLocation.latitude + " longitude " + userLocation.longitude);
         //getting new location from user, send it to database
         return newLocationJson;
+    }
+
+    private User getCurrentUser(){
+        User user = null;
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            user = (User) auth.getPrincipal();
+        }
+        catch(ClassCastException ex){
+
+            System.out.println("Trying to get user credentials for non authorized user");
+        }
+        return user;
+    }
+
+    @DeleteMapping()
+    public String deleteAllLocations(){
+        User user = getCurrentUser();
+        System.out.print("Delete all data for user " + user.getId());
+        //delete all locations for user.getUsername();
+        return "";
     }
 
 

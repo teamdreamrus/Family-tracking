@@ -1,5 +1,9 @@
+$(document).ready(function() {
 
-var springApp = angular.module("springApp", []);
+});
+
+
+    var springApp = angular.module("springApp", []);
 
 springApp.controller("appController",  function($scope, $http){
     $scope.friends = [];
@@ -15,7 +19,7 @@ springApp.controller("appController",  function($scope, $http){
 
     $scope.orderField = 'username';
     $scope.orderInc = false;
-    $http.get("https://localhost:8443/api/friends/"+"userId").then(
+    $http.get("https://localhost:8443/api/friends").then(
         function (response){
             console.log(response);
             var friendsList = response.data;
@@ -38,7 +42,7 @@ springApp.controller("appController",  function($scope, $http){
     };
 
     $scope.response = {};
-    $scope.setOneDay = function(){
+    $scope.setOne = function(){
 
         remove2GisMapMarkers();
         var config = { params: { period: "one"}};
@@ -59,8 +63,6 @@ springApp.controller("appController",  function($scope, $http){
                 );
             }
         }
-
-        $scope.newPerson = null;
     };
 
     $scope.setHour = function(){
@@ -89,7 +91,34 @@ springApp.controller("appController",  function($scope, $http){
                 );
             }
         }
-        $scope.newPerson = null;
+    };
+
+    $scope.setDay = function(){
+        remove2GisMapTracks();
+        var config = { params: { period: "day"}};
+        for (var key in $scope.friends) {
+            if ($scope.friends[key].selected) {
+                $http.get("https://localhost:8443/api/location/" + $scope.friends[key].id, config).then(
+                    function (response) {
+                        console.log(response);
+                        var unparsedCoordinates = response.data;
+                        var parsedCoordinates = [];
+                        for (var i in unparsedCoordinates){
+                            var coordArray = [];
+                            coordArray.push(unparsedCoordinates[i].latitude);
+                            coordArray.push(unparsedCoordinates[i].longitude);
+                            parsedCoordinates.push(coordArray);
+                        }
+                        console.log(parsedCoordinates);
+                        add2GisMapTracks(parsedCoordinates);
+                        fit2GisMapTracks();
+                    },
+                    function (error) {
+
+                    }
+                );
+            }
+        }
     };
 
 
@@ -154,45 +183,6 @@ springApp.directive("hoverClass",function(){
         });
     }
 });
-
-function BootstrapScrollTable(tbl) {
-    $('tbody').css('overflow-y', 'scroll');
-    $('tbody').css('position', 'absolute');
-
-    var hTable = parseInt($('#' + tbl).css('height'));
-    var hHead = parseInt($('#' + tbl + ' thead').css('height'));
-    var h = hTable - hHead;
-
-    $('#' + tbl + ' tbody').css('height', h);
-
-
-    var thead = parseInt($('#' + tbl + ' thead').css('width'));
-    var tbody = parseInt($('#' + tbl + ' tbody').css('width'));
-    var delta = tbody - thead;
-
-    $('tbody').css('width', $('thead').css('width'));
-    var pos = $('tbody').position();
-    var left = pos.left;
-    var top = pos.top;
-
-    $('tbody').css('left', left - 0);
-    $('tbody').css('top', top - 0);
-
-    var colCount = $('#' + tbl + ' thead tr:nth-child(1) th').length;
-    var rowCount = $('#' + tbl + ' tbody tr').length;
-
-    for (x = 1; x <= colCount; x++) {
-        var w = parseInt($('#' + tbl + ' thead tr:nth-child(1) th:nth-child(' + x + ')').css('width'));
-        if (x == colCount) {
-            w = w - 18;
-        }
-
-        for (y = 1; y <= rowCount; y++) {
-            var idx = '#' + tbl + ' tbody tr:nth-child(' + y + ') td:nth-child(' + x + ')';
-            $(idx).css('width', w);
-        }
-    }
-}
 
 
 
