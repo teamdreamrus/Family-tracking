@@ -18,15 +18,16 @@ public class UserDataAccessObject {
     @Autowired
     public UserRepository userRepository;
     public Optional<User> findByUsername(@NonNull String username){
-      //  User user = null;
-        User user = userRepository.findByUsername(username).get(0);
-        user.parseAuthority();
-        user.setAccountNonExpired(true);
-        user.setAccountNonLocked(true);
-        user.setCredentialsNonExpired(true);
-        user.setEnabled(true);
-        System.out.println(user.getAuthorities());
-
+        User user = null;
+        if (userRepository.findByUsername(username).size()>0) {
+            user = userRepository.findByUsername(username).get(0);
+            user.parseAuthority();
+            user.setAccountNonExpired(true);
+            user.setAccountNonLocked(true);
+            user.setCredentialsNonExpired(true);
+            user.setEnabled(true);
+            System.out.println(user.getAuthorities());
+        }
         //find user in database here
 
         return Optional.ofNullable(user);

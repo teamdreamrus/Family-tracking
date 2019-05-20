@@ -36,7 +36,6 @@ public class RegistrationController{
       //  user.addAuthority(Role.USER);
         user.addAuthority(Role.USER);
 
-        userService.addUser(user);
 
         try{
             userService.loadUserByUsername(user.getUsername());
@@ -49,6 +48,7 @@ public class RegistrationController{
         }
         else {
             redirectUrl = "/login";
+            userService.addUser(user);
         }
         return redirectUrl;
     }
