@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface FriendshipRepository extends CrudRepository<Friendship,Integer> {
 
+    boolean findAccessById(Integer id);
 
 @Query(value = "SELECT id FROM friendship WHERE ((id1=?1 and id2=?2) or (id2=?2 and id1=?1));",
     nativeQuery = true)
