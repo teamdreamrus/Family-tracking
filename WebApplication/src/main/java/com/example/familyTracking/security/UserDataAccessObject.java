@@ -21,9 +21,6 @@ public class UserDataAccessObject {
       //  User user = null;
         User user = userRepository.findByUsername(username).get(0);
         user.parseAuthority();
-        //user.setUsername("asd");
-        //user.setPassword(new BCryptPasswordEncoder().encode("123"));
-        //user.addAuthority(Role.USER);
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
@@ -52,6 +49,7 @@ public class UserDataAccessObject {
 
     public boolean deleteUserByUsername(@NonNull String username){
         //call database user deleting here
-        return false;
+        userRepository.delete(User username);
+        return true;
     }
 }
