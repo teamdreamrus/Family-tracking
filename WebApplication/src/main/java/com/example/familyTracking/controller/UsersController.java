@@ -31,6 +31,7 @@ public class UsersController {
             allUsersList.add(new UserPublic(x.getId(),x.getUsername()));
         }
         allUsersJson = gson.toJson(allUsersList);
+        System.out.println(allUsersJson);
         return allUsersJson;
     }
 

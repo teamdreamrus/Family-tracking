@@ -2,7 +2,15 @@ package com.example.familyTracking.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+@NoArgsConstructor
 @Data
 public class Friendship{
     public Friendship(Integer id1, Integer id2, Integer initiatorId, boolean accepted){
@@ -11,6 +19,9 @@ public class Friendship{
         this.initiatorId = initiatorId;
         this.accepted = accepted;
     }
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Integer Id;
     @SerializedName("id1")
     public Integer id1;
     @SerializedName("id2")
@@ -19,6 +30,5 @@ public class Friendship{
     public Integer initiatorId;
     @SerializedName("accepted")
     public boolean accepted;
-    @SerializedName("rejected")
-    public boolean rejected;
+
 }

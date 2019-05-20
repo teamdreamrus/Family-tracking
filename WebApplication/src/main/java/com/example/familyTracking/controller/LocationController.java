@@ -73,6 +73,7 @@ public class LocationController{
         User user = getCurrentUser();
         System.out.print("Delete all data for user " + user.getId());
         //delete all locations for user.getUsername();
+        //locationRepository.findAllById();
         return "";
     }
 
