@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Date;
 import java.util.Map;
 
 
@@ -35,6 +36,7 @@ public class RegistrationController{
         user.setCredentialsNonExpired(true);
       //  user.addAuthority(Role.USER);
         user.addAuthority(Role.USER);
+        System.out.println(new Date());
 
 
         try{

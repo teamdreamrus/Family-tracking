@@ -94,6 +94,12 @@ public class LocationController{
     @GetMapping("{id}")
     public String getFriendLast(@PathVariable String id, @RequestParam("period") String period){
         //getting last friend's location
+        Location l = new Location();
+        l.setUsername("c");
+        l.setLongitude(80.5);
+        l.setLatitude(90.5);
+        locationRepository.save(l);
+
         User user = getCurrentUser();
         User friend = userRepository.findById(Integer.parseInt(id)).orElse(new User());
         Integer flagTrueFriendship = 0;
@@ -103,7 +109,8 @@ public class LocationController{
 
             for(Integer idFriendship: friendshipsID){
                 Friendship friendship = friendshipRepository.findById(idFriendship).orElse(new Friendship());
-                if(friendshipRepository.findAccessById(friendship.getId()))
+                System.out.println(friendship.isAccepted());
+                if(friendship.isAccepted())
                     flagTrueFriendship++;
             }
         }
@@ -115,7 +122,7 @@ public class LocationController{
                     UserLocation userlocal = new UserLocation();
 
 
-                    Location local= locationRepository.FindLastByUsername(friend.getUsername());
+                    Location local= locationRepository.LastUsername(friend.getUsername());
                     userlocal.setUsername(local.getUsername());
                     userlocal.setLatitude(local.getLatitude());
                     userlocal.setLongitude(local.getLongitude());

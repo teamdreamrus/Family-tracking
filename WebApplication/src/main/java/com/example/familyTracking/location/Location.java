@@ -31,4 +31,5 @@ public class Location{
         date = new Date();
     }
 
+
 }
