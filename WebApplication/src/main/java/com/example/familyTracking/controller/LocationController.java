@@ -7,12 +7,14 @@ import com.example.familyTracking.security.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class LocationController{
     public FriendshipRepository friendshipRepository;
 
     Gson gson = new GsonBuilder().create();
-
+    @AllArgsConstructor
     @Data
     private class UserLocation{
         public UserLocation(double latitude, double longitude){
@@ -121,10 +123,25 @@ public class LocationController{
 
                     break;
                 case "hour":
-                        //взять дату сейчас и час назад и в запрос их
+                        //взять дату сейчас и час назад и в запрос их, дата должан быть между ними
+                    Date now = new Date();
+                    Date hourAgo = new Date(System.currentTimeMillis() - 3600 * 1000);
+                    List<Location> locationPerHour = new LinkedList<>();
+                    locationPerHour = locationRepository.LocalByDateBeetwin(now,hourAgo);
+                    for(Location locationHour : locationPerHour){
+                        userLocations.add(new UserLocation(locationHour.getUsername(),locationHour.getLatitude(),locationHour.getLongitude()));
+                    }
+
                     break;
                 case "day":
                     //взять дату сейчас и день назад и в запрос их
+                    Date nowDay = new Date();
+                    Date dayAgo = new Date(System.currentTimeMillis() - 3600 * 1000 * 24);
+                    List<Location> locationPerDay = new LinkedList<>();
+                    locationPerDay = locationRepository.LocalByDateBeetwin(nowDay,dayAgo);
+                    for(Location locationDay : locationPerDay){
+                        userLocations.add(new UserLocation(locationDay.getUsername(),locationDay.getLatitude(),locationDay.getLongitude()));
+                    }
                     break;
             }
 

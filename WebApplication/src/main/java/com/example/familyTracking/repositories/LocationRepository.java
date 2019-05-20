@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.example.familyTracking.location.Location;
 
+import java.util.Date;
 import java.util.List;
 
 public interface LocationRepository extends CrudRepository<Location,Integer>{
@@ -15,4 +16,12 @@ public interface LocationRepository extends CrudRepository<Location,Integer>{
     @Query(value = "SELECT * FROM location WHERE date = (SELECT MAX(date) FROM location) and username=?1;",
             nativeQuery = true)
     Location FindLastByUsername(String username);
+
+    @Query(value = "SELECT * FROM location WHERE ((date <?1) and (date > ?2));",
+            nativeQuery = true)
+    List<Location> LocalByDateBeetwin(Date now, Date hourAgo);
+
+
+
+
 }
