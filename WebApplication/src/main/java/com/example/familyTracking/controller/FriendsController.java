@@ -27,52 +27,40 @@ public class FriendsController {
 
     Gson gson = new GsonBuilder().create();
 
-
     @Autowired
     public UserRepository userRepository;
     @Autowired
     public FriendshipRepository friendshipRepository;
 
     @GetMapping("{id}")
-    public String getFriendsForId(@PathVariable Integer id){
-        String friendsJson = "";
-        List<Friend> userFriendsList = new LinkedList<>();
-        List<Integer> idsFriendship=new LinkedList<>();
-
-        System.out.println("Sending friends:" + friendsJson);
-        //
-        idsFriendship = friendshipRepository.findByIds(id);
-        for(Integer a :idsFriendship) {
-            Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
-            User user = new User();
-            if(friendship.id1 == id)
-                user = userRepository.findById(friendship.id2).orElse(new User());
-            else user = userRepository.findById(friendship.id1).orElse(new User());
-            userFriendsList.add(new Friend(user.getId(),user.getUsername(),friendship.accepted));
+    public String getFriendsForId(@PathVariable Integer id,  @RequestParam("select") String select){
+        String response = "";
+        switch(select){
+            case "all":
+                response = getAllFriends(id);
+                break;
+            case "accepted":
+                response = getAcceptedFriends(id);
+                break;
         }
-
-        friendsJson = gson.toJson(userFriendsList);
-        return friendsJson;
+        return response;
     }
 
-    @GetMapping("accepted/{id}")
-    public String getFriendsForIdAccept(@PathVariable Integer id){
+    private String getAllFriends(Integer id){
         String friendsJson = "";
         List<Friend> userFriendsList = new LinkedList<>();
-        List<Integer> idsFriendship=new LinkedList<>();
+        List<Integer> idsFriendship;
+
         System.out.println("Sending friends:" + friendsJson);
-        // find friends for user with id
-        // put it to userFriendsList
         idsFriendship = friendshipRepository.findByIds(id);
         for(Integer a :idsFriendship) {
             Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
-            if(friendship.accepted){
-                User user = new User();
-                if(friendship.id1 == id)
+            if (friendship.initiatorId != User.getCurrentUser().getId() || friendship.accepted){
+                User user;
+                if (friendship.id1 == id)
                     user = userRepository.findById(friendship.id2).orElse(new User());
                 else user = userRepository.findById(friendship.id1).orElse(new User());
-
-                userFriendsList.add(new Friend(user.getId(),user.getUsername(),friendship.accepted));
+                userFriendsList.add(new Friend(user.getId(), user.getUsername(), friendship.accepted));
             }
         }
 
@@ -80,12 +68,35 @@ public class FriendsController {
         return friendsJson;
     }
 
+    private String getAcceptedFriends(Integer id){
+        String friendsJson = "";
+        List<Friend> userFriendsList = new LinkedList<>();
+        List<Integer> idsFriendship;
+
+        System.out.println("Sending friends:" + friendsJson);
+        idsFriendship = friendshipRepository.findByIds(id);
+        for(Integer a :idsFriendship) {
+            Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
+            if (friendship.accepted){
+                User user;
+                if (friendship.id1 == id)
+                    user = userRepository.findById(friendship.id2).orElse(new User());
+                else user = userRepository.findById(friendship.id1).orElse(new User());
+                userFriendsList.add(new Friend(user.getId(), user.getUsername(), friendship.accepted));
+            }
+        }
+
+        friendsJson = gson.toJson(userFriendsList);
+        return friendsJson;
+    }
+
+
     @GetMapping
-    public String getFriendsForCurrentUser(){
+    public String getFriendsForCurrentUser(@RequestParam("select") String select){
         String friendsJson = "";
         User user = User.getCurrentUser();
         if (user != null) {
-            friendsJson = getFriendsForId(user.getId());
+            friendsJson = getFriendsForId(user.getId(), select);
         }
         return friendsJson;
     }
@@ -94,7 +105,6 @@ public class FriendsController {
     public Integer addNewFriendshipRequest(@PathVariable Integer id){
         User user = User.getCurrentUser();
         Friendship friendship = new Friendship(user.getId(), id, user.getId(), false);
-        //add new friendship to db if not exists
 
         System.out.println("New frienship request from user " + user.getId() + " to user " + id);
         if(user.getId()!=id)
@@ -107,31 +117,28 @@ public class FriendsController {
     public Integer deleteFriendship(@PathVariable Integer id){
         User user = User.getCurrentUser();
         Integer idFriendship;
-        //delete friendship from db for users with id and user.getId()
-       // Friendship friendship = new Friendship()
+
         if(friendshipRepository.getIDbyIdId(user.getId(),id).size()>0){
             idFriendship = friendshipRepository.getIDbyIdId(user.getId(),id).get(0);
             friendshipRepository.deleteById(idFriendship);
         }
-
         System.out.println("Deleting frienship of users " + user.getId() + " and " + id);
         return id;
     }
 
     @PutMapping("{id}")
     public Integer acceptFriendship(@PathVariable Integer id){
-        System.out.println("Accepting frienship request from user ");
         User user = User.getCurrentUser();
         Integer idFriendship;
         if(friendshipRepository.getIDbyIdId(user.getId(),id).size()>0){
             idFriendship = friendshipRepository.getIDbyIdId(user.getId(),id).get(0);
+            System.out.println("Friendship id " + idFriendship);
             Friendship friendship = friendshipRepository.findById(idFriendship).orElse(new Friendship());
             friendship.setAccepted(true);
+            System.out.print("Friednship: ");
+            System.out.println(friendship);
             friendshipRepository.save(friendship);
-
-           // friendshipRepository.UpdateAccept(idFriendship);
         }
-        //accept friendship in db for users with id and user.getId()
         System.out.println("Accepting frienship request from user " + user.getId() + " to user " + id);
         return id;
     }

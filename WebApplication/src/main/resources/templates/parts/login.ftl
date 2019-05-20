@@ -1,10 +1,4 @@
 <#macro login path buttonText>
-    <#if RequestParameters.logout??>
-        <div class="alert alert-info" role="alert">Вы вышли из аккаунта</div>
-    </#if>
-    <#if RequestParameters.error??>
-        <div class="alert alert-info" role="alert">Неправильные учётные данные</div>
-    </#if>
     <form  action="${path}" method="post" >
 
         <div class="form-group">

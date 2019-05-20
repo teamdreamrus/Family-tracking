@@ -11,6 +11,11 @@
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col">
+                                    <h3 class="btn btn-default fill-width wrap-top" ng-bind="profile.username"></h3>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col">
                                     <button class="btn btn-default fill-width wrap-top" ng-click="deleteAllData()">Удалить все данные</button>
                                 </div>
                             </div>

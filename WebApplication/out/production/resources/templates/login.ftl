@@ -10,6 +10,13 @@
                     <h3 class="panel-title text-center">Авторизация</h3>
                 </div>
                 <div class="panel-body">
+                    <#if RequestParameters.logout??>
+                        <div class="alert alert-info" role="alert">Вы вышли из аккаунта</div>
+                    </#if>
+                    <#if RequestParameters.error??>
+                        <div class="alert alert-info" role="alert">Неправильные учётные данные</div>
+                    </#if>
+
                     <@loginForm.login "/login" "Войти"/>
 
                 </div>

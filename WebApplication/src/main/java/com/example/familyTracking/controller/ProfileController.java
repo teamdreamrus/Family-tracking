@@ -28,7 +28,7 @@ public class ProfileController {
     public String getAccountData(){
         String userDataJson = "";
         User user = User.getCurrentUser();
-        System.out.print("Delete account of user " + user.getId());
+        System.out.print("Get account data of user " + user.getId());
         UserPublic userPublic = new UserPublic(user.getId(), user.getUsername());
         userDataJson = gson.toJson(userPublic);
         return userDataJson;

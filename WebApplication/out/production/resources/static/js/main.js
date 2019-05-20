@@ -8,6 +8,7 @@ $(document).ready(function() {
 springApp.controller("appController",  function($scope, $http){
     $scope.friends = [];
     $scope.selection = [];
+    $scope.profile = {};
 
 
     $scope.checkedFriends = [];
@@ -19,19 +20,32 @@ springApp.controller("appController",  function($scope, $http){
 
     $scope.orderField = 'username';
     $scope.orderInc = false;
-    $http.get("https://localhost:8443/api/friends").then(
+
+    $http.get("https://localhost:8443/api/profile").then(
         function (response){
             console.log(response);
-            var friendsList = response.data;
-            for (var key in friendsList){
-                friendsList[key].selected = false;
-            }
-            $scope.friends = friendsList;
+            $scope.profile = response;
+            $scope.getAcceptedFriends();
         },
         function (error){
         }
     );
 
+    $scope.getAcceptedFriends = function() {
+        var config = { params: { select: "accepted"}};
+        $http.get("https://localhost:8443/api/friends", config).then(
+            function (response) {
+                console.log(response);
+                var friendsList = response.data;
+                for (var key in friendsList) {
+                    friendsList[key].selected = false;
+                }
+                $scope.friends = friendsList;
+            },
+            function (error) {
+            }
+        );
+    }
     $scope.printPersons = function(){
 
         for (var key in $scope.friends) {
