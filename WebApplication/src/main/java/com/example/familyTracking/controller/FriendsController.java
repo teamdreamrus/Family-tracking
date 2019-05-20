@@ -34,23 +34,12 @@ public class FriendsController {
         return friendsJson;
     }
 
-    private User getCurrentUser(){
-        User user = null;
-        try{
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            user = (User) auth.getPrincipal();
-        }
-        catch(ClassCastException ex){
 
-            System.out.println("Trying to get user credentials for non authorized user");
-        }
-        return user;
-    }
 
     @GetMapping
     public String getFriendsForCurrentUser(){
         String friendsJson = "";
-        User user = getCurrentUser();
+        User user = User.getCurrentUser();
         if (user != null) {
             friendsJson = getFriendsForId(user.getId());
         }
@@ -59,7 +48,7 @@ public class FriendsController {
 
     @PostMapping("{id}")
     public Integer addNewFriendshipRequest(@PathVariable Integer id){
-        User user = getCurrentUser();
+        User user = User.getCurrentUser();
         Friendship friendship = new Friendship(user.getId(), id, user.getId(), false);
         //add new friendship to db if not exists
         System.out.println("New frienship request from user " + user.getId() + " to user " + id);
@@ -68,7 +57,7 @@ public class FriendsController {
 
     @DeleteMapping("{id}")
     public Integer deleteFriendship(@PathVariable Integer id){
-        User user = getCurrentUser();
+        User user = User.getCurrentUser();
         //delete friendship from db for users with id and user.getId()
         System.out.println("Deleting frienship of users " + user.getId() + " and " + id);
         return id;
@@ -76,7 +65,7 @@ public class FriendsController {
 
     @PutMapping("{id}")
     public Integer acceptFriendship(@PathVariable Integer id){
-        User user = getCurrentUser();
+        User user = User.getCurrentUser();
         //accept friendship in db for users with id and user.getId()
         System.out.println("Accepting frienship request from user " + user.getId() + " to user " + id);
         return id;

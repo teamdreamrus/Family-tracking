@@ -2,8 +2,8 @@
 
 <@pageTemplate.page "Family Tracking">
 
-    <div class="container-fluid" style="margin-top: 30px" ng-app="springApp" ng-controller="appController">
-        <div class="row full-viewport">
+    <div class="container-fluid" ng-app="springApp" ng-controller="appController">
+        <div class="row fill-viewport">
             <div class="col-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading rounded-top centered"><h3><a class="text-center" href="/friends">Друзья</a></h3></div>
@@ -31,11 +31,11 @@
         <div class="d-block d-md-none w-100"></div>
         <div class="col-9">
             <div class="panel panel-primary">
-                <div class="panel-heading text-center rounded-top"><h3>Карта</h3></div>
+                <div class="panel-heading text-center rounded-top"><h3>Местоположение друзей</h3></div>
                 <div class="panel-body panel-primary fixed-tables">
                     <div class="row justify-content-around">
                             <div class="col">
-                                <button class="btn btn-default" ng-click="setOneDay()">
+                                <button class="btn btn-default" ng-click="setOne()">
                                     Последнее место
                                 </button>
                             </div>
@@ -45,7 +45,7 @@
                                 </button>
                             </div>
                             <div class="col">
-                                <button class="btn btn-default" ng-click="editedPerson(newPerson)">
+                                <button class="btn btn-default" ng-click="setDay()">
                                     Последние сутки
                                 </button>
                             </div>

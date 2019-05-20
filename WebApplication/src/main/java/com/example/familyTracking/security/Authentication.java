@@ -23,11 +23,14 @@ class Authentication extends WebSecurityConfigurerAdapter {
                 .x509().subjectPrincipalRegex("CN=(.*?),").and()
                 .httpBasic().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/location").hasAuthority(Role.USER.toString())
-                .antMatchers(HttpMethod.GET, "/api/location/*").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/friends/*").permitAll()
+                /*
+                .antMatchers(HttpMethod.POST, "/api/location").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers(HttpMethod.GET, "/api/location/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers(HttpMethod.GET, "/api/friends/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers(HttpMethod.POST, "/api/users/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers(HttpMethod.GET, "/api/users/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())*/
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/").permitAll()//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers("/").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/friends").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/profile").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/resources/**").permitAll()

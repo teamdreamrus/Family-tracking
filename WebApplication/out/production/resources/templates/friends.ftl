@@ -57,7 +57,6 @@
                             <tbody>
                             <tr ng-repeat="item in users  | orderBy: orderField : orderInc ">
                                 <td>
-                                    {{ item.username }}
                                     <div class="container">
                                         <div class="row justify-content-center">
                                             <div class="col">

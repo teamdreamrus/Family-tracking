@@ -60,6 +60,18 @@ public class User implements UserDetails {
 //        return ((User )SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 //    }
 
+    public static User getCurrentUser(){
+        User user = null;
+        try{
+            org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            user = (User) auth.getPrincipal();
+        }
+        catch(ClassCastException ex){
+
+            System.out.println("Trying to get user credentials for non authorized user");
+        }
+        return user;
+    }
 
 
 }

@@ -44,13 +44,11 @@
     </div>
 </nav>
 </div>
-
-    <div class="wrapping">
-
-    </div>
 </header>
 <section id="main">
-<#nested>
+    <div class="wrapping">
+    </div>
+    <#nested>
 </section>
 
 

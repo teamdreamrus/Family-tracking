@@ -143,15 +143,22 @@ hr{
     background: #6ed2b4;
 }
 
-
 .wrapping{
-    min-height: 5px;
+    min-height: 35px;
 }
 
 .fill-viewport {
     height: 100%;
 }
 
+.fill-width{
+    width: 100%;
+}
+
 .fixed-tables{
-    height: 100vh;
+    height: 70vh;
+}
+
+.wrap-top{
+    margin-top: 10px;
 }

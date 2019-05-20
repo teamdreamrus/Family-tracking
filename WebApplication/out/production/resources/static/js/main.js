@@ -42,7 +42,7 @@ springApp.controller("appController",  function($scope, $http){
     };
 
     $scope.response = {};
-    $scope.setOneDay = function(){
+    $scope.setOne = function(){
 
         remove2GisMapMarkers();
         var config = { params: { period: "one"}};
@@ -63,8 +63,6 @@ springApp.controller("appController",  function($scope, $http){
                 );
             }
         }
-
-        $scope.newPerson = null;
     };
 
     $scope.setHour = function(){
@@ -93,7 +91,34 @@ springApp.controller("appController",  function($scope, $http){
                 );
             }
         }
-        $scope.newPerson = null;
+    };
+
+    $scope.setDay = function(){
+        remove2GisMapTracks();
+        var config = { params: { period: "day"}};
+        for (var key in $scope.friends) {
+            if ($scope.friends[key].selected) {
+                $http.get("https://localhost:8443/api/location/" + $scope.friends[key].id, config).then(
+                    function (response) {
+                        console.log(response);
+                        var unparsedCoordinates = response.data;
+                        var parsedCoordinates = [];
+                        for (var i in unparsedCoordinates){
+                            var coordArray = [];
+                            coordArray.push(unparsedCoordinates[i].latitude);
+                            coordArray.push(unparsedCoordinates[i].longitude);
+                            parsedCoordinates.push(coordArray);
+                        }
+                        console.log(parsedCoordinates);
+                        add2GisMapTracks(parsedCoordinates);
+                        fit2GisMapTracks();
+                    },
+                    function (error) {
+
+                    }
+                );
+            }
+        }
     };
 
 
