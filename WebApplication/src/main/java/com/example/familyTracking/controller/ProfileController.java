@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.example.familyTracking.security.UserService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,6 +20,9 @@ import java.io.IOException;
 public class ProfileController {
 
     Gson gson = new GsonBuilder().create();
+
+    @Autowired
+    UserService userService;
 
     @GetMapping
     public String getAccountData(){
@@ -35,6 +40,7 @@ public class ProfileController {
         //response.sendRedirect("/logout");
         System.out.print("Delete account of user " + user.getId());
         //delete user from user database
+        userService.deleteUser(user);
         return "";
     }
 

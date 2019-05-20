@@ -29,6 +29,9 @@ public class UserService implements UserDetailsService {
         userDao.saveUser(newUser);
 
     }
+    public void deleteUser(User user){
+        userDao.deleteUserById(user.getId());
+    }
 
     List<Role> simpleRoleList = new LinkedList<Role>();
     {
@@ -38,5 +41,9 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(@NonNull  String username) throws UsernameNotFoundException {
         return userDao.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User "+username+" wasn't found"));
+    }
+
+    public List<User> getAllUsers(){
+        return userDao.getAllUsers();
     }
 }

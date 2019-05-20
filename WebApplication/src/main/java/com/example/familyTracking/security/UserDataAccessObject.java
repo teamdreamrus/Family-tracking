@@ -32,13 +32,13 @@ public class UserDataAccessObject {
         return Optional.ofNullable(user);
     }
 
-    public Optional<List<User>> getAllUsers(){
+    public List<User> getAllUsers(){
         List<User> userList = new LinkedList<User>();
         //List<User> userList = userRepository.findAll();
        userRepository.findAll().forEach(userList::add);
 
         //get all users from database here
-        return Optional.ofNullable(userList);
+        return userList;
     }
 
     public boolean saveUser(User newUser){
@@ -49,7 +49,16 @@ public class UserDataAccessObject {
 
     public boolean deleteUserByUsername(@NonNull String username){
         //call database user deleting here
-        userRepository.delete(User username);
+      //  userRepository.delete(User username);
+        User user = userRepository.findByUsername(username).get(0);
+        Integer id = user.getId();
+        userRepository.deleteById(id);
         return true;
     }
+
+    public boolean deleteUserById(@NonNull Integer id){
+        userRepository.deleteById(id);
+        return true;
+    }
+
 }
