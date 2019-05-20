@@ -52,7 +52,7 @@ public class UserDataAccessObject {
 
     public boolean deleteUserByUsername(@NonNull String username){
         //call database user deleting here
-        //userRepository.delete(Username username);
+        userRepository.delete(User username);
         return true;
     }
 }
