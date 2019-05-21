@@ -29,6 +29,7 @@ class Authentication extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/friends/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers(HttpMethod.POST, "/api/users/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers(HttpMethod.GET, "/api/users/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())*/
+                .antMatchers("favicon.ico").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/friends").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())

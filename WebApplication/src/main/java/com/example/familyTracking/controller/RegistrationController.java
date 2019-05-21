@@ -4,6 +4,7 @@ import com.example.familyTracking.security.User;
 import com.example.familyTracking.security.UserService;
 import com.example.familyTracking.security.Role;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -17,24 +18,29 @@ import java.util.Map;
 @Controller
 public class RegistrationController{
 
+    @Autowired
+    private Logger logger;
+
     @GetMapping("/registration")
     public String registration() {
+        if (User.getCurrentUser() == null) {
+            logger.info("New non-authorised user came to registration page");
+        }
         return "registration";
     }
 
     @Autowired
     UserService userService;
 
+
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        boolean userAlreadyExists = false;
-        System.out.println("Registration!!!");
+        boolean userAlreadyExists = true;
         String redirectUrl;
         user.setAccountNonExpired(true);
         user.setAccountNonLocked(true);
         user.setEnabled(true);
         user.setCredentialsNonExpired(true);
-      //  user.addAuthority(Role.USER);
         user.addAuthority(Role.USER);
         System.out.println(new Date());
 
@@ -46,11 +52,14 @@ public class RegistrationController{
             userAlreadyExists = false;
         }
         if (userAlreadyExists){
-            redirectUrl = "/login";
+            redirectUrl = "/registration";
+            logger.info("Register new user failed (username " + user.getUsername() + " exists)");
+
         }
         else {
             redirectUrl = "/login";
             userService.addUser(user);
+            logger.info("Register new user access (username = " + user.getUsername() + ")");
         }
         return redirectUrl;
     }

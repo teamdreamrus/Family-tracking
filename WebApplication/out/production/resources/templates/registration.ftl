@@ -9,6 +9,10 @@
                     <h3 class="panel-title text-center">Регистрация</h3>
                 </div>
                 <div class="panel-body">
+                    <#if RequestParameters.error??>
+                        <div class="alert alert-info" role="alert">Имя пользователя занято</div>
+                    </#if>
+
                     <@registrationForm.login "/registration" "Подтвердить"/>
 
                 </div>

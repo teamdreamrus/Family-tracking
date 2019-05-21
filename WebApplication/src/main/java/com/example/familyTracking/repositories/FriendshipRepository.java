@@ -13,7 +13,7 @@ public interface FriendshipRepository extends CrudRepository<Friendship,Integer>
     nativeQuery =  true)
     boolean AccessId(Integer id);
 
-@Query(value = "SELECT id FROM friendship WHERE ((id1=?1 and id2=?2) or (id2=?2 and id1=?1));",
+@Query(value = "SELECT id FROM friendship WHERE ((id1=?1 and id2=?2) or (id2=?1 and id1=?2));",
     nativeQuery = true)
     List<Integer> getIDbyIdId(Integer id1, Integer id2);
 
@@ -28,4 +28,4 @@ public interface FriendshipRepository extends CrudRepository<Friendship,Integer>
 */
 
 
-};
+}

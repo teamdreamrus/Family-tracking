@@ -7,8 +7,6 @@ $(document).ready(function() {
 
 springApp.controller("appController",  function($scope, $http, $window){
     $scope.profile = {};
-
-
     $scope.orderField = 'username';
     $scope.orderInc = false;
     $http.get("https://localhost:8443/api/profile").then(

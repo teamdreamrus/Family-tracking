@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.slf4j.Logger;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 @RequestMapping("/api/location")
 public class LocationController{
+
+    @Autowired
+    Logger logger;
 
     @Autowired
     public LocationRepository locationRepository;
@@ -55,8 +59,8 @@ public class LocationController{
     @PostMapping
     public String newLocation(@RequestBody String newLocationJson){
         UserLocation userLocation = gson.fromJson(newLocationJson, UserLocation.class);
-        System.out.println("User " + userLocation.username + " latitude " + userLocation.latitude + " longitude " + userLocation.longitude);
-        //getting new location from user, send it to database
+        logger.debug("User " + userLocation.username + " send new location: ( "
+                + userLocation.latitude + " ; " + userLocation.longitude + " )");
         Location locUser = new Location();
         locUser.setUsername(userLocation.username);
         locUser.setLatitude(userLocation.latitude);
@@ -65,23 +69,11 @@ public class LocationController{
         return newLocationJson;
     }
 
-    private User getCurrentUser(){
-        User user = null;
-        try{
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            user = (User) auth.getPrincipal();
-        }
-        catch(ClassCastException ex){
-
-            System.out.println("Trying to get user credentials for non authorized user");
-        }
-        return user;
-    }
 
     @DeleteMapping()
     public String deleteAllLocations(){
-        User user = getCurrentUser();
-        System.out.print("Delete all data for user " + user.getId());
+        User user = User.getCurrentUser();
+        logger.info("User " + user.getUsername() + " has deleted all his locations");
         //delete all locations for user.getUsername();
         List<Location> locationUser = locationRepository.findByUsername(user.getUsername());
         for(Location a : locationUser){
@@ -98,6 +90,7 @@ public class LocationController{
         User user = getCurrentUser();
         User friend = userRepository.findById(Integer.parseInt(id)).orElse(new User());
 
+        logger.debug("User " + user.getUsername() + " getting locations of user with id " + id + " for period " + period);
         List<UserLocation> userLocations = new LinkedList<>();
 
             List<Integer> friendshipsID = friendshipRepository.getIDbyIdId(user.getId(),friend.getId());
@@ -109,7 +102,7 @@ public class LocationController{
 
                  {
 
-
+			
                     switch(period){
                         case "one":
 
@@ -147,8 +140,7 @@ public class LocationController{
                             break;
                     }
                 }
-
-        }
+                }
 
 
 
@@ -159,8 +151,6 @@ public class LocationController{
 
 
         String userLocationsJson = gson.toJson(userLocations);
-        System.out.println(userLocationsJson);
-        //send friend's location to user
         return userLocationsJson;
     }
 
