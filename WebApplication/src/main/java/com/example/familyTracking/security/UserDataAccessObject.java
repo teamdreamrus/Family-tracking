@@ -1,5 +1,6 @@
 package com.example.familyTracking.security;
 
+import org.slf4j.Logger;
 import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,17 +17,15 @@ import java.util.Optional;
 public class UserDataAccessObject {
 
     @Autowired
+    Logger logger;
+
+    @Autowired
     public UserRepository userRepository;
     public Optional<User> findByUsername(@NonNull String username){
         User user = null;
         if (userRepository.findByUsername(username).size()>0) {
             user = userRepository.findByUsername(username).get(0);
             user.parseAuthority();
-            user.setAccountNonExpired(true);
-            user.setAccountNonLocked(true);
-            user.setCredentialsNonExpired(true);
-            user.setEnabled(true);
-            System.out.println(user.getAuthorities());
         }
         //find user in database here
 

@@ -2,13 +2,7 @@ package com.example.familyTracking.location;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import lombok.Data;
 import java.util.Date;
 
@@ -30,5 +24,4 @@ public class Location{
     public Location(){
         date = new Date();
     }
-
 }

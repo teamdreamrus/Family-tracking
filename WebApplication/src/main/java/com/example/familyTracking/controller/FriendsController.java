@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +32,8 @@ public class FriendsController {
     public UserRepository userRepository;
     @Autowired
     public FriendshipRepository friendshipRepository;
+    @Autowired
+    private Logger logger;
 
     @GetMapping("{id}")
     public String getFriendsForId(@PathVariable Integer id,  @RequestParam("select") String select){
@@ -50,8 +53,6 @@ public class FriendsController {
         String friendsJson = "";
         List<Friend> userFriendsList = new LinkedList<>();
         List<Integer> idsFriendship;
-
-        System.out.println("Sending friends:" + friendsJson);
         idsFriendship = friendshipRepository.findByIds(id);
         for(Integer a :idsFriendship) {
             Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
@@ -63,7 +64,7 @@ public class FriendsController {
                 userFriendsList.add(new Friend(user.getId(), user.getUsername(), friendship.accepted));
             }
         }
-
+        logger.debug("User with id " + id + " getting list of all his friends");
         friendsJson = gson.toJson(userFriendsList);
         return friendsJson;
     }
@@ -72,8 +73,6 @@ public class FriendsController {
         String friendsJson = "";
         List<Friend> userFriendsList = new LinkedList<>();
         List<Integer> idsFriendship;
-
-        System.out.println("Sending friends:" + friendsJson);
         idsFriendship = friendshipRepository.findByIds(id);
         for(Integer a :idsFriendship) {
             Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
@@ -85,7 +84,7 @@ public class FriendsController {
                 userFriendsList.add(new Friend(user.getId(), user.getUsername(), friendship.accepted));
             }
         }
-
+        logger.debug("User with id " + id + " getting list of his accepted friends");
         friendsJson = gson.toJson(userFriendsList);
         return friendsJson;
     }
@@ -98,6 +97,7 @@ public class FriendsController {
         if (user != null) {
             friendsJson = getFriendsForId(user.getId(), select);
         }
+        logger.debug("User " + user.getUsername() + " getting list of his friends");
         return friendsJson;
     }
 
@@ -105,11 +105,19 @@ public class FriendsController {
     public Integer addNewFriendshipRequest(@PathVariable Integer id){
         User user = User.getCurrentUser();
         Friendship friendship = new Friendship(user.getId(), id, user.getId(), false);
-
-        System.out.println("New frienship request from user " + user.getId() + " to user " + id);
-        if(user.getId()!=id)
-            if(friendshipRepository.getIDbyIdId(user.getId(),id).size()==0)
+        if(user.getId()!=id) {
+            if (friendshipRepository.getIDbyIdId(user.getId(), id).size() == 0) {
                 friendshipRepository.save(friendship);
+                logger.info("User with id " + user.getId() + " send friendship request to user with id " + id);
+            }
+            else{
+                logger.debug("User with id " + user.getId() + " send friendship request to user with id " + id  +
+                        " but they are already friends");
+            }
+        }
+        else{
+            logger.debug("User with id " + user.getId() + " send friendship request to himself");
+        }
         return id;
     }
 
@@ -122,7 +130,7 @@ public class FriendsController {
             idFriendship = friendshipRepository.getIDbyIdId(user.getId(),id).get(0);
             friendshipRepository.deleteById(idFriendship);
         }
-        System.out.println("Deleting frienship of users " + user.getId() + " and " + id);
+        logger.info("User with id " + user.getId() + " stop friendship with user with id " + id );
         return id;
     }
 
@@ -135,11 +143,9 @@ public class FriendsController {
             System.out.println("Friendship id " + idFriendship);
             Friendship friendship = friendshipRepository.findById(idFriendship).orElse(new Friendship());
             friendship.setAccepted(true);
-            System.out.print("Friednship: ");
-            System.out.println(friendship);
             friendshipRepository.save(friendship);
+            logger.info("User with id " + user.getId() + " accept friendship request from user with id " + id );
         }
-        System.out.println("Accepting frienship request from user " + user.getId() + " to user " + id);
         return id;
     }
 }
