@@ -93,7 +93,7 @@ public class LocationController{
 
     @GetMapping("{id}")
     public String getFriendLast(@PathVariable String id, @RequestParam("period") String period){
-        
+
 
         User user = getCurrentUser();
         User friend = userRepository.findById(Integer.parseInt(id)).orElse(new User());
