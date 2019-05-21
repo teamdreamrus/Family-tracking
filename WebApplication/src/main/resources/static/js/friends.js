@@ -10,7 +10,7 @@ springApp.controller("appController",  function($scope, $http){
     $scope.users = [];
     $scope.selection = [];
     $scope.search = {};
-
+    $scope.profile = {};
     $scope.checkedFriends = [];
     $scope.toggleCheck = function (friend) {
         friend.selected = !friend.selected;
@@ -20,28 +20,22 @@ springApp.controller("appController",  function($scope, $http){
 
     $scope.orderField = 'username';
     $scope.orderInc = false;
-    $http.get("https://localhost:8443/api/friends").then(
+
+    $http.get("https://localhost:8443/api/profile").then(
         function (response){
             console.log(response);
-            var friendsList = response.data;
-            $scope.friends = friendsList;
+            $scope.profile = response;
+            $scope.getAllFriends();
+            $scope.getAllUsers();
         },
         function (error){
         }
     );
 
-    $http.get("https://localhost:8443/api/users").then(
-        function (response){
-            console.log(response);
-            var usersList = response.data;
-            $scope.users = usersList;
-        },
-        function (error){
-        }
-    );
 
     $scope.getAllFriends = function(){
-        $http.get("https://localhost:8443/api/friends/").then(
+        var config = { params: { select: "all"}};
+        $http.get("https://localhost:8443/api/friends/", config).then(
             function (response){
                 console.log(response);
                 var friendsList = response.data;

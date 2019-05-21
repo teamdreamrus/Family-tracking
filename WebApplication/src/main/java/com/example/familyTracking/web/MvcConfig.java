@@ -1,6 +1,8 @@
 package com.example.familyTracking.web;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.*;
 
 @EnableWebMvc
@@ -27,10 +29,4 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**").addResourceLocations("/public","classpath:/static/").setCachePeriod(0);
 
     }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("*");
-    }
-
 }
