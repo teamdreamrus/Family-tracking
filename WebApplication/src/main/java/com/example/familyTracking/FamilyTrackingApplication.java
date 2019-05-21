@@ -18,16 +18,13 @@ import org.springframework.context.annotation.Configuration;
 public class FamilyTrackingApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(FamilyTrackingApplication.class, args);
 	}
-
 
 	@Bean
 	public Logger getLogger() {
 		return LoggerFactory.getLogger(FamilyTrackingApplication.class);
 	}
-
 }
 
 
