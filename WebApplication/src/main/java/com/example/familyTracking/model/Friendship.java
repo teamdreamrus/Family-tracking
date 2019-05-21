@@ -2,6 +2,7 @@ package com.example.familyTracking.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;

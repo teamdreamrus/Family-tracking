@@ -1,15 +1,20 @@
 package com.example.familyTracking.controller;
 
+import com.example.familyTracking.model.Friendship;
+import com.example.familyTracking.repositories.FriendshipRepository;
+import com.example.familyTracking.repositories.UserRepository;
 import com.example.familyTracking.security.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,9 +28,14 @@ public class LocationController{
 
     @Autowired
     public LocationRepository locationRepository;
+    @Autowired
+    public UserRepository userRepository;
+
+    @Autowired
+    public FriendshipRepository friendshipRepository;
 
     Gson gson = new GsonBuilder().create();
-
+    @AllArgsConstructor
     @Data
     private class UserLocation{
         public UserLocation(double latitude, double longitude){
@@ -73,60 +83,79 @@ public class LocationController{
         User user = getCurrentUser();
         System.out.print("Delete all data for user " + user.getId());
         //delete all locations for user.getUsername();
-        //locationRepository.findAllById();
+        List<Location> locationUser = locationRepository.findByUsername(user.getUsername());
+        for(Location a : locationUser){
+           locationRepository.deleteById(a.getId());
+        }
         return "";
     }
 
 
     @GetMapping("{id}")
     public String getFriendLast(@PathVariable String id, @RequestParam("period") String period){
-        //getting last friend's location
+
+
+        User user = getCurrentUser();
+        User friend = userRepository.findById(Integer.parseInt(id)).orElse(new User());
+
         List<UserLocation> userLocations = new LinkedList<>();
-        System.out.print("Getting last " + id + " location  for period " + period + " : ");
-        switch(period){
-            case "one":
-                UserLocation userLocation = new UserLocation();
-                switch(id){
-                    case "id1":
-                        userLocation.longitude = 80;
-                        userLocation.latitude = 54;
-                        break;
-                    case "id2":
-                        userLocation.longitude = 80;
-                        userLocation.latitude = 53;
-                        break;
-                    case "id3":
-                        userLocation.longitude = 81;
-                        userLocation.latitude = 53;
-                        break;
+
+            List<Integer> friendshipsID = friendshipRepository.getIDbyIdId(user.getId(),friend.getId());
+
+            for(Integer idFriendship: friendshipsID){
+                Friendship friendship = friendshipRepository.findById(idFriendship).orElse(new Friendship());
+
+                if(friendship.isAccepted() | user.getUsername().equals(friend.getUsername()) )
+
+                 {
+
+
+                    switch(period){
+                        case "one":
+
+
+
+                            Location local= locationRepository.LastUsername(friend.getUsername());
+                            if(local == null) return "";
+                            System.out.println("LOCAL: ");
+                            System.out.println(local);
+                            UserLocation userlocalVAR = new UserLocation(local.getUsername(),local.getLatitude(),local.getLongitude());
+
+                            userLocations.add(userlocalVAR);
+
+                            break;
+                        case "hour":
+                            //взять дату сейчас и час назад и в запрос их, дата должан быть между ними
+                            Date now = new Date();
+                            Date hourAgo = new Date(System.currentTimeMillis() - 3600 * 1000);
+                            List<Location> locationPerHour = new LinkedList<>();
+                            locationPerHour = locationRepository.LocalDateBeetwin(now,hourAgo,friend.getUsername());
+                            for(Location locationHour : locationPerHour){
+                                userLocations.add(new UserLocation(locationHour.getUsername(),locationHour.getLatitude(),locationHour.getLongitude()));
+                            }
+
+                            break;
+                        case "day":
+                            //взять дату сейчас и день назад и в запрос их
+                            Date nowDay = new Date();
+                            Date dayAgo = new Date(System.currentTimeMillis() - 3600 * 1000 * 24);
+                            List<Location> locationPerDay = new LinkedList<>();
+                            locationPerDay = locationRepository.LocalDateBeetwin(nowDay,dayAgo,friend.getUsername());
+                            for(Location locationDay : locationPerDay){
+                                userLocations.add(new UserLocation(locationDay.getUsername(),locationDay.getLatitude(),locationDay.getLongitude()));
+                            }
+                            break;
+                    }
                 }
-                userLocation.username = id;
-                userLocations.add(userLocation);
-                break;
-            case "hour":
-                switch(id){
-                    case "id1":
-                        userLocations.add(new UserLocation(80, 54));
-                        userLocations.add(new UserLocation(80, 55));
-                        userLocations.add(new UserLocation(80, 56));
-                        break;
-                    case "id2":
-                        userLocations.add(new UserLocation(80, 52));
-                        userLocations.add(new UserLocation(81, 54));
-                        userLocations.add(new UserLocation(82, 54));
-                        break;
-                    case "id3":
-                        userLocations.add(new UserLocation(80, 51));
-                        userLocations.add(new UserLocation(79, 51));
-                        userLocations.add(new UserLocation(79, 50));
-                        break;
-                }
-                //get last locations for hour
-                break;
-            case "day":
-                //get last locations for day
-                break;
+
         }
+
+
+
+
+
+        System.out.print("Getting last " + id + " location  for period " + period + " : ");
+
 
 
         String userLocationsJson = gson.toJson(userLocations);
