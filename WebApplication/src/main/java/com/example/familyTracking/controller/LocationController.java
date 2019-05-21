@@ -23,6 +23,8 @@ import com.example.familyTracking.repositories.LocationRepository;
 import com.example.familyTracking.location.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.example.familyTracking.security.User.getCurrentUser;
+
 @RestController
 @RequestMapping("/api/location")
 public class LocationController{
@@ -72,7 +74,7 @@ public class LocationController{
 
     @DeleteMapping()
     public String deleteAllLocations(){
-        User user = User.getCurrentUser();
+        User user = getCurrentUser();
         logger.info("User " + user.getUsername() + " has deleted all his locations");
         //delete all locations for user.getUsername();
         List<Location> locationUser = locationRepository.findByUsername(user.getUsername());
