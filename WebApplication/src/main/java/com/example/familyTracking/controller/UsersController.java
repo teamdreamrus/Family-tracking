@@ -37,7 +37,7 @@ public class UsersController {
 
         User user = User.getCurrentUser();
         if (user != null) {
-            logger.info("Sending list of all users in JSON format to user " + user.getUsername());
+            logger.debug("Sending list of all users in JSON format to user " + user.getUsername());
         }
         return allUsersJson;
     }

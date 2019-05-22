@@ -97,6 +97,11 @@ springApp.controller("appController",  function($scope, $http, $window){
     };
 
 
+    $scope.clear = function(){
+        remove2GisMapTracks();
+        remove2GisMapMarkers();
+    };
+
 
     $scope.deleteAllData = function() {
         $http.delete("https://localhost:8443/api/location").then(

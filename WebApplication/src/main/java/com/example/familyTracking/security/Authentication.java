@@ -31,13 +31,14 @@ class Authentication extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/users/*").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())*/
                 .antMatchers("favicon.ico").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
+                .antMatchers("/").permitAll()
+                .antMatchers("/main").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())//hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/friends").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/profile").hasAnyAuthority(Role.USER.toString(), Role.ADMIN.toString())
                 .antMatchers("/resources/**").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").permitAll()
-                .defaultSuccessUrl("/").failureUrl("/login?error=true").and()
+                .defaultSuccessUrl("/main").failureUrl("/login?error=true").and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/login?logout").permitAll();
     }
 

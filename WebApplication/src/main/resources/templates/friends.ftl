@@ -3,15 +3,15 @@
 <@pageTemplate.page "Друзья">
     <div class="container-fluid"  ng-app="springApp" ng-controller="appController">
         <div class="row fill-viewport">
-                <div class="col-6">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="panel panel-primary">
-                        <div class="panel-heading rounded-top centered"><h3><a class="text-center" href="/friends">Друзья</a></h3></div>
+                        <div class="panel-heading rounded-top centered"><h3><a class="text-center white" href="#">Друзья</a></h3></div>
                             <div class="panel-body fixed-tables">
 
                             <table id="friendsTable" class="table table-striped fill-viewport">
                                 <thead>
                                 <tr>
-                                    <th><i class="fas fa-angle-double-down" hover-class="fa-angle-down"
+                                    <th><i class="fas fa-users" hover-class="fa-user-alt"
                                            ng-click="orderField = 'id'; orderInc = !orderInc"></i> Никнейм</th>
                                 </tr>
                                 </thead>
@@ -41,15 +41,15 @@
                 </div>
             </div>
             <div class="d-block d-md-none w-100"></div>
-            <div class="col-6">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading rounded-top centered"><h3><a class="text-center" href="/friends">Все пользователи</a></h3></div>
+                    <div class="panel-heading rounded-top centered"><h3><a class="text-center white" href="#">Все пользователи</a></h3></div>
                     <div class="panel-body  fixed-tables">
 
                         <table id="usersTable" class="table table-striped fill-viewport">
                             <thead>
                             <tr>
-                                <th><i class="fas fa-angle-double-down" hover-class="fa-angle-down"
+                                <th><i class="fas fa-users" hover-class="fa-user-alt"
                                        ng-click="orderField = 'id'; orderInc = !orderInc"></i> Никнейм
                                 </th>
                             </tr>

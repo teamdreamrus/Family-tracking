@@ -56,9 +56,9 @@ public class FriendsController {
         idsFriendship = friendshipRepository.findByIds(id);
         for(Integer a :idsFriendship) {
             Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
-            if (friendship.initiatorId != User.getCurrentUser().getId() || friendship.accepted){
+            if (!friendship.initiatorId.equals(User.getCurrentUser().getId()) || friendship.accepted){
                 User user;
-                if (friendship.id1 == id)
+                if (friendship.id1.equals(id))
                     user = userRepository.findById(friendship.id2).orElse(new User());
                 else user = userRepository.findById(friendship.id1).orElse(new User());
                 userFriendsList.add(new Friend(user.getId(), user.getUsername(), friendship.accepted));
@@ -78,7 +78,7 @@ public class FriendsController {
             Friendship friendship = friendshipRepository.findById(a).orElse(new Friendship());
             if (friendship.accepted){
                 User user;
-                if (friendship.id1 == id)
+                if (friendship.id1.equals(id))
                     user = userRepository.findById(friendship.id2).orElse(new User());
                 else user = userRepository.findById(friendship.id1).orElse(new User());
                 userFriendsList.add(new Friend(user.getId(), user.getUsername(), friendship.accepted));
@@ -105,7 +105,7 @@ public class FriendsController {
     public Integer addNewFriendshipRequest(@PathVariable Integer id){
         User user = User.getCurrentUser();
         Friendship friendship = new Friendship(user.getId(), id, user.getId(), false);
-        if(user.getId()!=id) {
+        if(!user.getId().equals(id)) {
             if (friendshipRepository.getIDbyIdId(user.getId(), id).size() == 0) {
                 friendshipRepository.save(friendship);
                 logger.info("User with id " + user.getId() + " send friendship request to user with id " + id);
