@@ -85,6 +85,45 @@ public class LocationController{
     }
 
 
+    private List<UserLocation> getLocation(String username, String period){
+        List<UserLocation> userLocations = new LinkedList<>();
+        switch (period) {
+            case "one":
+
+                Location local = locationRepository.LastUsername(username);
+                if (local == null) break;
+                System.out.println("LOCAL: ");
+                System.out.println(local);
+                UserLocation userlocalVAR = new UserLocation(local.getUsername(), local.getLatitude(), local.getLongitude());
+
+                userLocations.add(userlocalVAR);
+
+                break;
+            case "hour":
+                //взять дату сейчас и час назад и в запрос их, дата должан быть между ними
+                Date now = new Date();
+                Date hourAgo = new Date(System.currentTimeMillis() - 3600 * 1000);
+                List<Location> locationPerHour = new LinkedList<>();
+                locationPerHour = locationRepository.LocalDateBeetwin(now, hourAgo, username);
+                for (Location locationHour : locationPerHour) {
+                    userLocations.add(new UserLocation(locationHour.getUsername(), locationHour.getLatitude(), locationHour.getLongitude()));
+                }
+
+                break;
+            case "day":
+                //взять дату сейчас и день назад и в запрос их
+                Date nowDay = new Date();
+                Date dayAgo = new Date(System.currentTimeMillis() - 3600 * 1000 * 24);
+                List<Location> locationPerDay = new LinkedList<>();
+                locationPerDay = locationRepository.LocalDateBeetwin(nowDay, dayAgo, username);
+                for (Location locationDay : locationPerDay) {
+                    userLocations.add(new UserLocation(locationDay.getUsername(), locationDay.getLatitude(), locationDay.getLongitude()));
+                }
+                break;
+        }
+        return userLocations;
+    }
+
     @GetMapping("{id}")
     public String getFriendLast(@PathVariable String id, @RequestParam("period") String period){
 
@@ -95,58 +134,24 @@ public class LocationController{
         logger.debug("User " + user.getUsername() + " getting locations of user with id " + id + " for period " + period);
         List<UserLocation> userLocations = new LinkedList<>();
 
-            List<Integer> friendshipsID = friendshipRepository.getIDbyIdId(user.getId(),friend.getId());
+        if(user.getUsername().equals(friend.getUsername()) ){
+            userLocations = getLocation(user.getUsername(), period);
+        }
+        else {
+            List<Integer> friendshipsID = friendshipRepository.getIDbyIdId(user.getId(), friend.getId());
 
-            for(Integer idFriendship: friendshipsID){
+            for (Integer idFriendship : friendshipsID) {
                 Friendship friendship = friendshipRepository.findById(idFriendship).orElse(new Friendship());
 
-                if(friendship.isAccepted() | user.getUsername().equals(friend.getUsername()) )
-
-                 {
-
-			
-                    switch(period){
-                        case "one":
+                if (friendship.isAccepted()) {
+                    userLocations = getLocation(friend.getUsername(), period);
 
 
-
-                            Location local= locationRepository.LastUsername(friend.getUsername());
-                            if(local == null) return "";
-                            System.out.println("LOCAL: ");
-                            System.out.println(local);
-                            UserLocation userlocalVAR = new UserLocation(local.getUsername(),local.getLatitude(),local.getLongitude());
-
-                            userLocations.add(userlocalVAR);
-
-                            break;
-                        case "hour":
-                            //взять дату сейчас и час назад и в запрос их, дата должан быть между ними
-                            Date now = new Date();
-                            Date hourAgo = new Date(System.currentTimeMillis() - 3600 * 1000);
-                            List<Location> locationPerHour = new LinkedList<>();
-                            locationPerHour = locationRepository.LocalDateBeetwin(now,hourAgo,friend.getUsername());
-                            for(Location locationHour : locationPerHour){
-                                userLocations.add(new UserLocation(locationHour.getUsername(),locationHour.getLatitude(),locationHour.getLongitude()));
-                            }
-
-                            break;
-                        case "day":
-                            //взять дату сейчас и день назад и в запрос их
-                            Date nowDay = new Date();
-                            Date dayAgo = new Date(System.currentTimeMillis() - 3600 * 1000 * 24);
-                            List<Location> locationPerDay = new LinkedList<>();
-                            locationPerDay = locationRepository.LocalDateBeetwin(nowDay,dayAgo,friend.getUsername());
-                            for(Location locationDay : locationPerDay){
-                                userLocations.add(new UserLocation(locationDay.getUsername(),locationDay.getLatitude(),locationDay.getLongitude()));
-                            }
-                            break;
-                    }
                 }
-                }
+            }
 
 
-
-
+        }
 
         System.out.print("Getting last " + id + " location  for period " + period + " : ");
 

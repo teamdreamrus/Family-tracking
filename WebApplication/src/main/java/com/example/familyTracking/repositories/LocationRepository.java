@@ -13,7 +13,7 @@ public interface LocationRepository extends CrudRepository<Location,Integer>{
     List<Location> findByUsername(String title);
 
 
-    @Query(value = "SELECT * FROM location WHERE date = (SELECT MAX(date) FROM location WHERE (username=?1));",
+    @Query(value = "SELECT * FROM location WHERE id = (SELECT MAX(id) FROM location WHERE (username=?1));",
             nativeQuery = true)
     Location LastUsername(String username);
 

@@ -12,7 +12,8 @@ springApp.controller("appController",  function($scope, $http, $window){
     $http.get("https://localhost:8443/api/profile").then(
         function (response){
             console.log(response);
-            $scope.profile = response;
+            $scope.profile = response.data;
+            console.log($scope.profile);
             $scope.setOne();
         },
         function (error){
