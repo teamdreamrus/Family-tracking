@@ -4,9 +4,9 @@
 
     <div class="container-fluid" ng-app="springApp" ng-controller="appController">
         <div class="row fill-viewport">
-            <div class="col-3">
+            <div class="col-lg-3 col-md-3 col-sm-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading rounded-top centered"><h3 class="text-center">Управление профилем</h3></div>
+                    <div class="panel-heading rounded-top centered"><h3 class="text-center white">Управление профилем</h3></div>
                     <div class="panel-body fixed-tables">
                         <div class="container">
                             <div class="row justify-content-center">
@@ -31,24 +31,29 @@
                 </div>
             </div>
             <div class="d-block d-md-none w-100"></div>
-            <div class="col-9">
+            <div class="col-lg-9 col-md-9 col-sm-12">
                 <div class="panel panel-primary">
-                    <div class="panel-heading text-center rounded-top"><h3>Моё местоположение</h3></div>
+                    <div class="panel-heading text-center rounded-top"><h3 class="white">Моё местоположение</h3></div>
                     <div class="panel-body panel-primary fixed-tables">
-                        <div class="row justify-content-around">
-                            <div class="col">
+                        <div class="row justify-content-sm-center justify-content-center">
+                            <div class="col-lg col-md col-sm-6 fill-width">
                                 <button class="btn btn-default" ng-click="setOne()">
                                     Последнее место
                                 </button>
                             </div>
-                            <div class="col">
+                            <div class="col-lg col-md col-sm-6 fill-width">
                                 <button class="btn btn-default" ng-click="setHour()">
                                     Последний час
                                 </button>
                             </div>
-                            <div class="col">
+                            <div class="col-lg col-md col-sm-6 fill-width">
                                 <button class="btn btn-default" ng-click="setDay()">
                                     Последние сутки
+                                </button>
+                            </div>
+                            <div class="col-lg col-md col-sm-6 fill-width">
+                                <button class="btn btn-default" ng-click="clear()">
+                                    Очистить карту
                                 </button>
                             </div>
                         </div>

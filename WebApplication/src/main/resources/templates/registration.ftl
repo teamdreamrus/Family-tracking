@@ -6,7 +6,7 @@
         <div class="col col-md-auto">
             <div class="panel panel-default" style="margin-top:45px">
                 <div class="panel-heading rounded-top">
-                    <h3 class="panel-title text-center">Регистрация</h3>
+                    <h3 class="panel-title text-center white">Регистрация</h3>
                 </div>
                 <div class="panel-body">
                     <#if RequestParameters.error??>

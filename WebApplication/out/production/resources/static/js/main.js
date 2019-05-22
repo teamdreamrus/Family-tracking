@@ -135,55 +135,10 @@ springApp.controller("appController",  function($scope, $http){
         }
     };
 
-
-    $scope.deletePerson = function(id){
-        console.log("Number of deleted: "+id);
-        $http.delete("http://localhost:8080/api/legalpersons/"+id.toString()).then(
-            function (response){
-                removeByAttr($scope.persons, "id", id);
-            },
-            function (error){
-
-            }
-        );
-
+    $scope.clear = function(){
+        remove2GisMapTracks();
+        remove2GisMapMarkers();
     };
-
-
-    $scope.editPerson = function(person){
-        console.log("Number of edited: "+person.id);
-        $scope.newPerson = {};
-        for (var key in person) {
-            $scope.newPerson[key] = person[key];
-        }
-        $scope.boolValue = false;
-    };
-
-    $scope.editedPerson = function(editedPerson){
-        console.log("Number of edited: "+editedPerson.id);
-        $http.put("http://localhost:8080/api/legalpersons/"+editedPerson.id.toString(), editedPerson).then(
-            function (response){
-                console.log(response);
-                if (response.data) {
-                    $scope.boolValue = true;
-                    var person = {};
-                    for (var key in editedPerson) {
-                        person[key] = editedPerson[key];
-                    }
-                    removeByAttr($scope.persons, "id", editedPerson.id);
-                    $scope.newPerson = null;
-                    $scope.persons.push(person);
-                }
-            },
-            function (error){
-            }
-        );
-    };
-
-    $scope.cancelEditPerson = function(editedPerson){
-        $scope.boolValue = true;
-        $scope.newPerson = null;
-    }
 });
 
 

@@ -16,7 +16,7 @@ body{
 h1, h2, h3, h4, h5, h6{
     font-family: "Raleway";
     font-weight: 300;
-    color: #333;
+    color: #333333;
 }
 
 p {
@@ -52,7 +52,7 @@ hr{
     font-size: 14px;
     padding-top: 15px;
     padding-bottom: 15px;
-    background: #6ed2b4;
+    background: #2196F3;
 }
 
 .navbar-inverse{
@@ -76,7 +76,7 @@ hr{
 
 .nav-link:hover{
     background: #f4f4f4;
-    color: #2af6b9;
+    color: #3F51B5;
 }
 
 .navbar-collapse{
@@ -85,7 +85,7 @@ hr{
 
 .navbar-toggler{
     background:#fff !important;
-    color: #6ed2b4 !important;
+    color: #3F51B5 !important;
 }
 
 .overlay{
@@ -102,7 +102,7 @@ hr{
 
 .btn{
     color: #fff;
-    background: #6ed2b4;
+    background: #3F51B5;
 }
 
 .map {
@@ -113,7 +113,7 @@ hr{
     font-weight: 500;
     font-size: 14px;
     font-family: "Raleway";
-    background: #6ed2b4;
+    background: #3F51B5;
 }
 
 .div {
@@ -130,7 +130,6 @@ hr{
 }
 .row {
     display: -ms-flexbox;
-    display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-right: -15px;
@@ -140,7 +139,7 @@ hr{
 .panel-heading{
     color: #f4f4f4;
     font-size: 15pt !important;
-    background: #6ed2b4;
+    background: #3F51B5;
 }
 
 .wrapping{
@@ -161,4 +160,8 @@ hr{
 
 .wrap-top{
     margin-top: 10px;
+}
+
+.white{
+    color: white;
 }
