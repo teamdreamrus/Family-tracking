@@ -9,7 +9,7 @@ springApp.controller("appController",  function($scope, $http, $window){
     $scope.profile = {};
     $scope.orderField = 'username';
     $scope.orderInc = false;
-    $http.get("https://192.168.0.104:8443/api/profile").then(
+    $http.get("https://localhost:8443/api/profile").then(
         function (response){
             console.log(response);
             $scope.profile = response.data;
@@ -33,7 +33,7 @@ springApp.controller("appController",  function($scope, $http, $window){
     $scope.setOne = function(){
         remove2GisMapMarkers();
         var config = { params: { period: "one"}};
-            $http.get("https://192.168.0.104:8443/api/location/" + $scope.profile.id, config).then(
+            $http.get("https://localhost:8443/api/location/" + $scope.profile.id, config).then(
                 function (response) {
                     console.log(response);
                     var location = response.data;
@@ -51,7 +51,7 @@ springApp.controller("appController",  function($scope, $http, $window){
     $scope.setHour = function(){
         remove2GisMapTracks();
         var config = { params: { period: "hour"}};
-            $http.get("https://192.168.0.104:8443/api/location/" + $scope.profile.id, config).then(
+            $http.get("https://localhost:8443/api/location/" + $scope.profile.id, config).then(
                 function (response) {
                     console.log(response);
                     var unparsedCoordinates = response.data;
@@ -75,7 +75,7 @@ springApp.controller("appController",  function($scope, $http, $window){
     $scope.setDay = function(){
         remove2GisMapTracks();
         var config = { params: { period: "day"}};
-                $http.get("https://192.168.0.104:8443/api/location/" + $scope.profile.id, config).then(
+                $http.get("https://localhost:8443/api/location/" + $scope.profile.id, config).then(
                     function (response) {
                         console.log(response);
                         var unparsedCoordinates = response.data;
@@ -104,7 +104,7 @@ springApp.controller("appController",  function($scope, $http, $window){
 
 
     $scope.deleteAllData = function() {
-        $http.delete("https://192.168.0.104:8443/api/location").then(
+        $http.delete("https://localhost:8443/api/location").then(
             function (response) {
 
             },
@@ -116,7 +116,7 @@ springApp.controller("appController",  function($scope, $http, $window){
     }
 
     $scope.deleteAccount = function(){
-        $http.delete("https://192.168.0.104:8443/api/profile").then(
+        $http.delete("https://localhost:8443/api/profile").then(
             function (response){
                 $window.location.href = '/logout';
             },
