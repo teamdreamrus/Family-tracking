@@ -12,7 +12,6 @@ public interface LocationRepository extends CrudRepository<Location,Integer>{
 
     List<Location> findByUsername(String title);
 
-
     @Query(value = "SELECT * FROM location WHERE id = (SELECT MAX(id) FROM location WHERE (username=?1));",
             nativeQuery = true)
     Location LastUsername(String username);
@@ -20,8 +19,4 @@ public interface LocationRepository extends CrudRepository<Location,Integer>{
     @Query(value = "SELECT * FROM location WHERE ((date <?1) and (date > ?2) and (username=?3));",
             nativeQuery = true)
     List<Location> LocalDateBeetwin(Date now, Date hourAgo,String username);
-
-
-
-
 }

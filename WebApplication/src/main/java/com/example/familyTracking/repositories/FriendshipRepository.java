@@ -21,11 +21,4 @@ public interface FriendshipRepository extends CrudRepository<Friendship,Integer>
 @Query(value = "SELECT id FROM friendship WHERE (id1=?1  or id2=?1 );",
         nativeQuery = true)
         List <Integer>findByIds(Integer id1);
-/*@Modifying
-@Query(value = "UPDATE friendship SET accepted = true WHERE id=?1",
-            nativeQuery = true)
-    void UpdateAccept(Integer id);
-*/
-
-
 }

@@ -21,11 +21,10 @@ import lombok.Data;
 @AllArgsConstructor
 @Entity
 public class User implements UserDetails {
-    @Transient //временно
+    @Transient
     private List<Role> authorities;
     private String strRole;
     private String password;
-    //временное поле возможно постоянное
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer Id;
@@ -55,10 +54,6 @@ public class User implements UserDetails {
             this.authorities.add(Role.valueOf(s));
         }
     }
-
-//    public User getCurrentUser(Principal principal){
-//        return ((User )SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-//    }
 
     public static User getCurrentUser(){
         User user = null;
