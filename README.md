@@ -63,3 +63,7 @@ REST запросы от клиентской части сервер обраб
 
 Отображение местоположения в веб-приложении, в мобильном браузере:
 ![Alt text](https://github.com/teamdreamrus/Family-tracking/blob/develop/Documentation/Screenshot_2019-05-23-02-37-04.png?raw=true "Отображение местоположения в веб-приложении, в мобильном браузере")
+
+## Релизы мобильного приложения
+Скачать приложение для Android:
+https://yadi.sk/d/CSPwFmewqgyaUg
